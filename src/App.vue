@@ -1,12 +1,34 @@
 <script setup>
 import dayjs from 'dayjs';
+import { resolveDynamicComponent } from 'vue';
 
-const march = Array.from({ length: 31}, 
-(_, i) => dayjs('20025-03-01').add(i, 'day'));
+const start = dayjs('2024-09-01');
+const end = dayjs('2025-07-31');
+console.log(dayjs('2024-09-30').get('day'));
+console.log(end.diff(start, 'month'));
+const timespan = [];
+let day = start;
+const diffInMonth = end.diff(start, 'month');
+let dayOld = day;
+// group by function
+while (day < end) {
+  let month = [];
+  if (dayOld.get('month') === day.get('month')) {
+    day = day.add(1, 'day');
+    month.push(day);
+
+  } else {
+    console.log(month);
+    timespan.push(month);
+    break;
+  }
+}
+const march = Array.from({ length: 31 },
+  (_, i) => dayjs('20025-03-01').add(i, 'day'));
 </script>
 
 <template>
-  <div v-for="day in march">{{day.format('DD.MM.YY')}}</div>
+  <!-- <div v-for="day in march">{{day.format('DD.MM.YY')}}</div> -->
 </template>
 
 <style scoped>
