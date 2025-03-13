@@ -1,11 +1,8 @@
 <script setup>
 import dayjs from 'dayjs';
 
-const march = [];
-for(let i = 0; i < 31; i++){
-  const day = dayjs('20025-03-01').add(i, 'day');
-  march.push(day);
-}
+const march = Array.from({ length: 31}, 
+(_, i) => dayjs('20025-03-01').add(i, 'day'));
 </script>
 
 <template>
