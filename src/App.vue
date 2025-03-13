@@ -1,5 +1,7 @@
 <script setup>
 import dayjs from 'dayjs';
+
+const donnerstag = dayjs('2025-03-13');
 </script>
 
 <template>
