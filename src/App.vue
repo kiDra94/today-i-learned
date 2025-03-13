@@ -1,11 +1,15 @@
 <script setup>
 import dayjs from 'dayjs';
 
-const donnerstag = dayjs('2025-03-13').add(2, 'days');
+const march = [];
+for(let i = 0; i < 31; i++){
+  const day = dayjs('20025-03-01').add(i, 'day');
+  march.push(day);
+}
 </script>
 
 <template>
-  <div v-for="i in 31">{{donnerstag.add(3, 'month').format('DD.MM.YY')}}</div>
+  <div v-for="day in march">{{day.format('DD.MM.YY')}}</div>
 </template>
 
 <style scoped>
