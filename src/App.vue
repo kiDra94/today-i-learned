@@ -11,6 +11,8 @@ let day = start;
 const diffInMonth = end.diff(start, 'month');
 let dayOld = day;
 // group by function
+// probier auch gleich beim ersten durchlauf ein dictonary zu machen,
+// wo .get('month') der key ist !!!
 while (day < end) {
   let month = [];
   if (dayOld.get('month') === day.get('month')) {
