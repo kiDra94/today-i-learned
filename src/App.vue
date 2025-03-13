@@ -5,7 +5,7 @@ const donnerstag = dayjs('2025-03-13').add(2, 'days');
 </script>
 
 <template>
-  <div v-for="i in 31">{{donnerstag.format('DD.MM.YY')}}</div>
+  <div v-for="i in 31">{{donnerstag.add(3, 'month').format('DD.MM.YY')}}</div>
 </template>
 
 <style scoped>
