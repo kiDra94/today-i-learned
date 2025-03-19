@@ -5,28 +5,27 @@ import { resolveDynamicComponent } from 'vue';
 const start = dayjs('2024-09-01');
 const end = dayjs('2025-07-31');
 console.log(dayjs('2024-09-30').get('day'));
-console.log(end.diff(start, 'month'));
-const timespan = [];
-let day = start;
-const diffInMonth = end.diff(start, 'month');
-let dayOld = day;
+const timespan_in_days = end.diff(start, 'day');
+
 // group by function
 // probier auch gleich beim ersten durchlauf ein dictonary zu machen,
 // wo .get('month') der key ist !!!
-while (day < end) {
-  let month = [];
-  if (dayOld.get('month') === day.get('month')) {
-    day = day.add(1, 'day');
-    month.push(day);
+const generateDateRange = (start, end) => {
+  const timespan = [];
+  let day = dayjs(start);
+  const endDate = dayjs(end);
 
-  } else {
-    console.log(month);
-    timespan.push(month);
-    break;
-  }
-}
-const march = Array.from({ length: 31 },
-  (_, i) => dayjs('20025-03-01').add(i, 'day'));
+  while (day.isBefore(endDate)) {
+    day = day.add(1, "day");
+    timespan.push(day); 
+    }
+
+  return timespan;
+};
+
+const generateDateRange1 = Array.from({ length: timespan_in_days },
+  (_, i) => start.add(i, 'day'));
+
 </script>
 
 <template>
