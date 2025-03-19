@@ -4,13 +4,12 @@ import { resolveDynamicComponent } from 'vue';
 
 const start = dayjs('2024-09-01');
 const end = dayjs('2025-07-31');
-console.log(dayjs('2024-09-30').get('day'));
+console.log(dayjs('2024-09-30').get('date'));
 const timespan_in_days = end.diff(start, 'day');
 
 // group by function
-// probier auch gleich beim ersten durchlauf ein dictonary zu machen,
-// wo .get('month') der key ist !!!
-const generateDateRange = (start, end) => {
+
+/* const generateDateRange1 = (start, end) => {
   const timespan = [];
   let day = dayjs(start);
   const endDate = dayjs(end);
@@ -21,11 +20,18 @@ const generateDateRange = (start, end) => {
     }
 
   return timespan;
-};
+}; */
 
-const generateDateRange1 = Array.from({ length: timespan_in_days },
+const generateDateRange = Array.from({ length: timespan_in_days },
   (_, i) => start.add(i, 'day'));
 
+const formatDataRange = generateDateRange.map(date => ({
+  year: date.get('year'),
+  month: date.get('month') + 1,
+  day: date.get('date')
+}));
+console.log(generateDateRange);
+console.log(formatDataRange);
 </script>
 
 <template>
