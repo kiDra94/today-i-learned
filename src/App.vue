@@ -30,6 +30,20 @@ const formatDataRange = generateDateRange.map(date => ({
   month: date.get('month') + 1,
   day: date.get('date')
 }));
+
+const groupBy = formatDataRange.reduce((acc, { year, month, day }) => {
+  if (!acc[year]) {
+    acc[year] = {}; 
+  }
+  if (!acc[year][month]) {
+    acc[year][month] = []; 
+  }
+  acc[year][month].push(day); 
+  return acc;
+}, {});
+
+console.log(groupedData);
+
 console.log(generateDateRange);
 console.log(formatDataRange);
 </script>
