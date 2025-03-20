@@ -42,7 +42,7 @@ const groupBy = formatDataRange.reduce((acc, { year, month, day }) => {
   return acc;
 }, {});
 
-console.log(groupedData);
+console.log(groupBy);
 
 console.log(generateDateRange);
 console.log(formatDataRange);
