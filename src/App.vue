@@ -7,8 +7,6 @@ const end = dayjs('2025-07-31');
 console.log(dayjs('2024-09-30').get('date'));
 const timespan_in_days = end.diff(start, 'day');
 
-// group by function
-
 /* const generateDateRange1 = (start, end) => {
   const timespan = [];
   let day = dayjs(start);
