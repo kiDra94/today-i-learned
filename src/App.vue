@@ -29,7 +29,9 @@ console.log(days(start));
 </script>
 
 <template>
-  <div v-for="day in days(start)">{{ day.format("YYYY-MM-DD") }}</div>
+  <div>
+    <div v-for="day in days(start)">{{ day.format("YYYY-MM-DD") }}</div>
+  </div>
 </template>
 
 <style scoped>
