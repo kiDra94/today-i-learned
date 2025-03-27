@@ -31,7 +31,7 @@ console.log(days(start));
 <template>
   <div v-for="month in months(start, end)">
     <h3>{{ month.format("MMMM") }}</h3>
-    <div v-for="day in days(month)">{{ day.format("YYYY-MM-DD") }}</div>
+    <div v-for="day in days(month)">{{ day.format("dddd") }}</div>
   </div>
 </template>
 
