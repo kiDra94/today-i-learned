@@ -18,7 +18,7 @@ const days = (month) => {
   const result = [];
   let current_day = month.startOf("month");
   const to = month.endOf("month");
-  while (current_day.isBefore(to, "day") || current_day.isSame(to, "month")) {
+  while (current_day.isBefore(to, "day") || current_day.isSame(to, "day")) {
     result.push(current_day);
     current_day = current_day.add(1, "day");
   }
