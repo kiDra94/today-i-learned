@@ -7,7 +7,7 @@ const end = dayjs('2025-07-31');
 const months = (from, to) => {
   const result = [];
   let current_month = from.startOf("month");
-  while (current_month.isBefore(to, "month") || current_month.isSame(to, "month")){
+  while (current_month.isBefore(to, "month") || current_month.isSame(to, "month")) {
     result.push(current_month);
     current_month = current_month.add(1, "month");
   }
@@ -16,19 +16,20 @@ const months = (from, to) => {
 
 const days = (month) => {
   const result = [];
-  let current_day = 1;
-  while (current_day < month.endOf('month').date()){
+  let current_day = month.startOf("month");
+  const to = month.endOf("month");
+  while (current_day.isBefore(to, "day") || current_day.isSame(to, "month")) {
     result.push(current_day);
-    current_day++;
+    current_day = current_day.add(1, "day");
   }
   return result;
 }
 console.log(months(start, end));
-console.log(days(start.get("month")));
+console.log(days(start));
 </script>
 
 <template>
-  <!-- <div v-for="day in march">{{day.format('DD.MM.YY')}}</div> -->
+  <div v-for="day in days(start)">{{ day.format("YYYY-MM-DD") }}</div>
 </template>
 
 <style scoped>
