@@ -1,48 +1,30 @@
 <script setup>
 import dayjs from 'dayjs';
-import { resolveDynamicComponent } from 'vue';
 
 const start = dayjs('2024-09-01');
 const end = dayjs('2025-07-31');
-console.log(dayjs('2024-09-30').get('date'));
-const timespan_in_days = end.diff(start, 'day');
 
-/* const generateDateRange1 = (start, end) => {
-  const timespan = [];
-  let day = dayjs(start);
-  const endDate = dayjs(end);
-
-  while (day.isBefore(endDate)) {
-    day = day.add(1, "day");
-    timespan.push(day); 
-    }
-
-  return timespan;
-}; */
-
-const generateDateRange = Array.from({ length: timespan_in_days },
-  (_, i) => start.add(i, 'day'));
-
-const formatDataRange = generateDateRange.map(date => ({
-  year: date.get('year'),
-  month: date.get('month') + 1,
-  day: date.get('date')
-}));
-
-const groupBy = formatDataRange.reduce((acc, { year, month, day }) => {
-  if (!acc[year]) {
-    acc[year] = {}; 
+const months = (from, to) => {
+  const result = [];
+  let current_month = from.startOf("month");
+  while (current_month.isBefore(to, "month") || current_month.isSame(to, "month")){
+    result.push(current_month);
+    current_month = current_month.add(1, "month");
   }
-  if (!acc[year][month]) {
-    acc[year][month] = []; 
-  }
-  acc[year][month].push(day); 
-  return acc;
-}, {});
+  return result;
+}
 
-console.log(generateDateRange);
-console.log(formatDataRange);
-console.log(groupBy);
+const days = (month) => {
+  const result = [];
+  let current_day = 1;
+  while (current_day < month.endOf('month').date()){
+    result.push(current_day);
+    current_day++;
+  }
+  return result;
+}
+console.log(months(start, end));
+console.log(days(start.get("month")));
 </script>
 
 <template>
