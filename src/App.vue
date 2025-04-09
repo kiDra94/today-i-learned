@@ -29,7 +29,7 @@ const days = (month) => {
       past(current_day) ? "past_css" : "",
       weekend(current_day) ? "weekend_css" : "",
     ].join(" ");
-    result.push({ current_day, special_class});
+    result.push({ current_day, special_class });
     current_day = current_day.add(1, "day");
   }
   return result;
@@ -40,10 +40,13 @@ console.log(days(from));
 
 <template>
   <div class="container">
-    <div class="month" v-for="month in months(from, to)">
-    <h3>{{ month.format("MMMM") }}</h3>
-    <div class="day" v-for="day in days(month)">{{ day.format("ddd, DD") }}</div>
-  </div>
+    <div class="month" v-for="month in months(from, to)" :key="month.format('YYYY-MM')">
+      <h3>{{ month.format("MMM") }}</h3>
+      <div class="days">
+        <div class="day" :class="date.special_class" v-for="date in days(month)"
+          :key="date.current_day.format('YYYY-MM-DD')">{{ day.format("ddd, DD") }}</div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -96,7 +99,7 @@ h3 {
   background-color: green;
 }
 
-.weekend_css .past_css{
+.weekend_css .past_css {
   background-color: beige;
 }
 </style>
