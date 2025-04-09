@@ -4,6 +4,10 @@ import 'dayjs/locale/de';
 
 const from = dayjs('2024-09-01');
 const to = dayjs('2025-07-31');
+const today = dayjs();
+const is_today = (day) => day.isSame(today, "day");
+const weekend = (day) => day.day() == 0 || day.day() == 6; // 0 SO, 6 SA
+const past = (day) => day.isBefore(today, "day");
 
 const months = (from, to) => {
   const result = [];
