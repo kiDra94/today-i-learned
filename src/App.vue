@@ -2,8 +2,8 @@
 import dayjs from 'dayjs';
 import 'dayjs/locale/de';
 
-const start = dayjs('2024-09-01');
-const end = dayjs('2025-07-31');
+const from = dayjs('2024-09-01');
+const to = dayjs('2025-07-31');
 
 const months = (from, to) => {
   const result = [];
@@ -25,13 +25,13 @@ const days = (month) => {
   }
   return result;
 }
-console.log(months(start, end));
-console.log(days(start));
+console.log(months(form, to));
+console.log(days(from));
 </script>
 
 <template>
   <div class="container">
-    <div class="month" v-for="month in months(start, end)">
+    <div class="month" v-for="month in months(from, to)">
     <h3>{{ month.format("MMMM") }}</h3>
     <div class="day" v-for="day in days(month)">{{ day.format("ddd, DD") }}</div>
   </div>
