@@ -96,6 +96,7 @@ h3 {
 
 .past_css {
   background-color: blue;
+  opacity: 0.6;
 }
 
 .weekend_css {
