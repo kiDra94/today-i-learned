@@ -1,5 +1,6 @@
 <script setup>
 import dayjs from 'dayjs';
+import 'dayjs/locale/de';
 
 const start = dayjs('2024-09-01');
 const end = dayjs('2025-07-31');
@@ -40,21 +41,53 @@ console.log(days(start));
 <style scoped>
 .container {
   display: flex;
-  width: 100vw; 
+  width: 100vw;
   height: 100vh;
-  font-family: 'Roboto';
 }
 
 .month {
-  margin: 0.5em;
-  padding: 0.3em;
-  width: 100vw; 
-  height: 100vh;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  overflow: hidden;
+}
+
+h3 {
+  margin: 10px 0;
+  font-size: 1.2rem;
+}
+
+.days {
+  display: flex;
+  flex-wrap: wrap;
+  flex-grow: 1;
+  align-content: flex-start;
+  padding: 5px;
+  overflow-y: auto;
 }
 
 .day {
-  margin: 0.1em;
-  border: 1px solid black;
-  padding: 2px;
+  width: 100%;
+  display: flex;
+  background-color: #f3f3f3;
+  border: 1px solid #ddd;
+  font-size: 0.9rem;
+}
+
+.today_css {
+  background-color: red;
+}
+
+.past_css {
+  background-color: blue;
+}
+
+.weekend_css {
+  background-color: green;
+}
+
+.weekend_css .past_css{
+  background-color: beige;
 }
 </style>
