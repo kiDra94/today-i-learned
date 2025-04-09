@@ -2,8 +2,8 @@
 import dayjs from 'dayjs';
 import 'dayjs/locale/de';
 
-const from = dayjs('2024-09-01');
-const to = dayjs('2025-07-31');
+const from = dayjs("2024-09-05 08:00");
+const to = dayjs("2025-07-07 08:00");
 const today = dayjs();
 const is_today = (day) => day.isSame(today, "day");
 const weekend = (day) => day.day() == 0 || day.day() == 6; // 0 SO, 6 SA
@@ -34,20 +34,23 @@ const days = (month) => {
   }
   return result;
 }
-console.log(months(form, to));
-console.log(days(from));
+
 </script>
 
 <template>
+
   <div class="container">
     <div class="month" v-for="month in months(from, to)" :key="month.format('YYYY-MM')">
       <h3>{{ month.format("MMM") }}</h3>
       <div class="days">
         <div class="day" :class="date.special_class" v-for="date in days(month)"
-          :key="date.current_day.format('YYYY-MM-DD')">{{ day.format("ddd, DD") }}</div>
+          :key="date.current_day.format('YYYY-MM-DD')">
+          {{ date.current_day.format("ddd, DD") }}
+        </div>
       </div>
     </div>
   </div>
+
 </template>
 
 <style scoped>
