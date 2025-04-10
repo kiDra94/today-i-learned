@@ -40,7 +40,7 @@ const tils = ref([]); // man gibt dem datentyp an welcher kommen wird, in unsere
 
 const fetcTils = async () => {
   const respons = await fetch("http://localhost:3000/db");
-  tils.value = respons.json();
+  tils.value = await respons.json();
 }
 
 </script>
