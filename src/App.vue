@@ -9,6 +9,7 @@ const today = dayjs();
 const is_today = (day) => day.isSame(today, "day");
 const weekend = (day) => day.day() == 0 || day.day() == 6; // 0 SO, 6 SA
 const past = (day) => day.isBefore(today, "day");
+const is_event = (day, eventDay) => day.isSame(eventDay);
 
 const months = (from, to) => {
   const result = [];
@@ -20,7 +21,7 @@ const months = (from, to) => {
   return result;
 }
 
-const days = (month) => {
+const days = (month, tils) => {
   const result = [];
   let current_day = month.startOf("month");
   const to = month.endOf("month");
@@ -29,6 +30,9 @@ const days = (month) => {
       is_today(current_day) ? "today_css" : "",
       past(current_day) ? "past_css" : "",
       weekend(current_day) ? "weekend_css" : "",
+      tils.forEach(element => {
+        is_event(current_day, element["date"]) ? "event_css" : "";
+      })
     ].join(" ");
     result.push({ current_day, special_class });
     current_day = current_day.add(1, "day");
@@ -61,7 +65,7 @@ onMounted(async () => {
     <div class="month" v-for="month in months(from, to)" :key="month.format('YYYY-MM')">
       <h3>{{ month.format("MMM") }}</h3>
       <div class="days">
-        <div class="day" :class="date.special_class" v-for="date in days(month)"
+        <div class="day" :class="date.special_class" v-for="date in days(month, tils)"
           :key="date.current_day.format('YYYY-MM-DD')">
           {{ date.current_day.format("ddd, DD") }}
         </div>
@@ -106,6 +110,11 @@ h3 {
   background-color: #f3f3f3;
   border: 1px solid #ddd;
   font-size: 0.9rem;
+}
+
+.event_css {
+  font-weight: bold;
+  color: white;
 }
 
 .today_css {
