@@ -37,6 +37,7 @@ const days = (month) => {
 }
 
 const tils = ref([]); // man gibt dem datentyp an welcher kommen wird, in unserem fall ist es eine Liste von Objekten
+console.log(tils.value);
 
 const fetcTils = async () => {
   try {
@@ -49,6 +50,7 @@ const fetcTils = async () => {
 
 onMounted(() => {
   fetcTils();
+  console.log(tils.value);
 });
 
 </script>
