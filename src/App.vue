@@ -39,8 +39,12 @@ const days = (month) => {
 const tils = ref([]); // man gibt dem datentyp an welcher kommen wird, in unserem fall ist es eine Liste von Objekten
 
 const fetcTils = async () => {
+  try {
   const respons = await fetch("http://localhost:3000/db");
   tils.value = await respons.json();
+  } catch (error) {
+    console.log(`Fetch tils failed with error: ${error}`);
+  }
 }
 
 </script>
