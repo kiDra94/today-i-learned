@@ -36,11 +36,12 @@ const days = (month) => {
   return result;
 }
 
-const fetcTils = async () => {
-  return await fetch("http://localhost:3000/db");
-}
-
 const tils = ref([]); // man gibt dem datentyp an welcher kommen wird, in unserem fall ist es eine Liste von Objekten
+
+const fetcTils = async () => {
+  const respons = await fetch("http://localhost:3000/db");
+  tils.value = respons.json();
+}
 
 </script>
 
