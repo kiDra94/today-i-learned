@@ -48,8 +48,8 @@ const fetcTils = async () => {
   }
 }
 
-onMounted(() => {
-  fetcTils();
+onMounted(async () => {
+  await fetcTils();
   console.log(tils.value);
 });
 
