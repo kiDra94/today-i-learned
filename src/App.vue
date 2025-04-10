@@ -47,6 +47,10 @@ const fetcTils = async () => {
   }
 }
 
+onMounted(() => {
+  fetcTils();
+});
+
 </script>
 
 <template>
