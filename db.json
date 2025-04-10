@@ -1,0 +1,16 @@
+{
+    "db": [
+        {
+            "date": "2025-04-10",
+            "desc": "json-server verwenden"
+        },
+        {
+            "date": "2025-04-10",
+            "desc": "v-for wiederhikt"
+        },
+        {
+            "date": "2025-04-10",
+            "desc": "pointer"
+        }
+    ] 
+}
