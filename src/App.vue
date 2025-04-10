@@ -9,7 +9,7 @@ const today = dayjs();
 const is_today = (day) => day.isSame(today, "day");
 const weekend = (day) => day.day() == 0 || day.day() == 6; // 0 SO, 6 SA
 const past = (day) => day.isBefore(today, "day");
-const is_event = (day, eventDay) => day.isSame(eventDay);
+const is_event = (day, eventDay) => day.isSame(dayjs(eventDay));
 
 const months = (from, to) => {
   const result = [];
@@ -21,22 +21,24 @@ const months = (from, to) => {
   return result;
 }
 
-const days = (month, tils) => {
+const days = (month, data) => {
   const result = [];
   let current_day = month.startOf("month");
   const to = month.endOf("month");
+  const tils = data.value;
   while (current_day.isBefore(to, "day") || current_day.isSame(to, "day")) {
     const special_class = [
       is_today(current_day) ? "today_css" : "",
       past(current_day) ? "past_css" : "",
       weekend(current_day) ? "weekend_css" : "",
-      tils.forEach(element => {
+      tils.forEach((element) => {
         is_event(current_day, element["date"]) ? "event_css" : "";
       })
     ].join(" ");
     result.push({ current_day, special_class });
     current_day = current_day.add(1, "day");
   }
+  console.log(result);
   return result;
 }
 
