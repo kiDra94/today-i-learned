@@ -25,38 +25,37 @@ const days = (month, data) => {
   const result = [];
   let current_day = month.startOf("month");
   const to = month.endOf("month");
-  const tils = data.value;
   while (current_day.isBefore(to, "day") || current_day.isSame(to, "day")) {
+    let isEventOnDay = false;
+    data.forEach(element => {
+      if (is_event(current_day, element["date"])) {
+        isEventOnDay = true;
+      }
+    });
     const special_class = [
       is_today(current_day) ? "today_css" : "",
       past(current_day) ? "past_css" : "",
       weekend(current_day) ? "weekend_css" : "",
-      tils.forEach((element) => {
-        is_event(current_day, element["date"]) ? "event_css" : "";
-      })
+      isEventOnDay ? "event_css" : ""
     ].join(" ");
     result.push({ current_day, special_class });
     current_day = current_day.add(1, "day");
   }
-  console.log(result);
   return result;
 }
 
 const tils = ref([]); // man gibt dem datentyp an welcher kommen wird, in unserem fall ist es eine Liste von Objekten
-console.log(tils.value);
 
 const fetcTils = async () => {
   try {
-  const respons = await fetch("http://localhost:3000/db");
-  tils.value = await respons.json();
+    const respons = await fetch("http://localhost:3000/db");
+    tils.value = await respons.json();
   } catch (error) {
-    console.log(`Fetch tils failed with error: ${error}`);
   }
 }
 
 onMounted(async () => {
   await fetcTils();
-  console.log(tils.value);
 });
 
 </script>
@@ -116,7 +115,8 @@ h3 {
 
 .event_css {
   font-weight: bold;
-  color: white;
+  font-style: italic;
+  color: rgb(187, 14, 147);
 }
 
 .today_css {
