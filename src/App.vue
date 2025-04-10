@@ -35,6 +35,10 @@ const days = (month) => {
   return result;
 }
 
+const fetcTils = () => {
+  return fetch("http://localhost:3000/db");
+}
+
 </script>
 
 <template>
