@@ -1,6 +1,7 @@
 <script setup>
 import dayjs from 'dayjs';
 import 'dayjs/locale/de';
+import { ref } from "vue";
 
 const from = dayjs("2024-09-05 08:00");
 const to = dayjs("2025-07-07 08:00");
@@ -35,9 +36,11 @@ const days = (month) => {
   return result;
 }
 
-const fetcTils = () => {
-  return fetch("http://localhost:3000/db");
+const fetcTils = async () => {
+  return await fetch("http://localhost:3000/db");
 }
+
+const tils = fetcTils();
 
 </script>
 
