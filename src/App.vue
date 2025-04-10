@@ -40,7 +40,7 @@ const fetcTils = async () => {
   return await fetch("http://localhost:3000/db");
 }
 
-const tils = fetcTils();
+const tils = ref([]); // man gibt dem datentyp an welcher kommen wird, in unserem fall ist es eine Liste von Objekten
 
 </script>
 
