@@ -67,7 +67,7 @@ function addTil() {
       <h3>{{ month.format("MMM") }}</h3>
       <div class="days">
         <div class="day" :class="date.special_class" v-for="date in days(month, tils)"
-          :key="date.current_day.format('YYYY-MM-DD')">
+          :key="date.current_day.format('YYYY-MM-DD')" @click="showPopup = true">
           {{ date.current_day.format("ddd, DD") }}
         </div>
       </div>
@@ -79,7 +79,7 @@ function addTil() {
       <h3>Add til</h3>
       <input type="text">
       <button @click="addTil()">Add</button>
-      <button>Close</button>
+      <button @click="showPopup = false">Close</button>
     </div>
   </div>
 </template>
