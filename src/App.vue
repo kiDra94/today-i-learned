@@ -52,6 +52,10 @@ const fetcTils = async () => {
 onMounted(async () => {
   await fetcTils();
 });
+
+function addTil() {
+  console.log("Hallo Welt")
+}
 </script>
 
 <template>
@@ -70,11 +74,11 @@ onMounted(async () => {
 
   <div class="overlay">
     <div class="popup">
+      <h3>Add til</h3>
       <input type="text">
       <button @click="addTil()">Add</button>
       <button>Close</button>
     </div>
-    <h3>Add til</h3>
   </div>
 </template>
 
@@ -83,6 +87,7 @@ onMounted(async () => {
   background-color: #f3f3f381;
   width: 300px;
 }
+
 .overlay {
   width: 100%;
   height: 100%;
