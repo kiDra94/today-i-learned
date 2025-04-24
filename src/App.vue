@@ -79,6 +79,10 @@ onMounted(async () => {
 </template>
 
 <style scoped>
+.popup {
+  background-color: #f3f3f381;
+  width: 300px;
+}
 .overlay {
   width: 100%;
   height: 100%;
@@ -86,6 +90,10 @@ onMounted(async () => {
   top: 0;
   left: 0;
   z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(199, 199, 199, 0.5);
 }
 
 .container {
