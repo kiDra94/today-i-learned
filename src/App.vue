@@ -64,7 +64,7 @@ const popupTitle = ref("");
 function openPopup(date) {
   showPopup.value = true;
   const key = date;
-  popupTitle.value = key.format('ddd, DD');
+  popupTitle.value = key.format('ddd, DD, MMM');
 }
 </script>
 
