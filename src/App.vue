@@ -42,7 +42,7 @@ const days = (month, data) => {
 }
 
 const tils = ref([]); // man gibt dem datentyp an welcher kommen wird, in unserem fall ist es eine Liste von Objekten
-
+console.log(tils);
 const fetcTils = async () => {
   try {
     const respons = await fetch("http://localhost:3000/db");
@@ -56,15 +56,21 @@ onMounted(async () => {
 });
 
 function addTil() {
-  console.log("Hallo Welt")
+  const tilsDate = currentDatePopup._rawValue.format('YYYY-MM-DD');
+  const tilsDesc = "hallo";
+  const data = {"date" : tilsDate, "desc" : tilsDesc};
+  tils._rawValue.push(data);
+  console.log(tils)
 }
 
 const popupTitle = ref("");
+const currentDatePopup = ref(dayjs());
 
 function openPopup(date) {
   showPopup.value = true;
   const key = date;
   popupTitle.value = key.format('ddd, DD, MMM');
+  currentDatePopup.value = date;
 }
 </script>
 
@@ -86,7 +92,7 @@ function openPopup(date) {
     <div class="popup">
       <h3>{{ popupTitle }}</h3>
       <input type="text">
-      <button @click="addTil()">Add</button>
+      <button @click="addTil(popupTitle)">Add</button>
       <button @click="showPopup = false">Close</button>
     </div>
   </div>
