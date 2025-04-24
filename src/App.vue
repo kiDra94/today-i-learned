@@ -71,7 +71,7 @@ onMounted(async () => {
   <div class="overlay">
     <div class="popup">
       <input type="text">
-      <button>Add</button>
+      <button @click="addTil()">Add</button>
       <button>Close</button>
     </div>
     <h3>Add til</h3>
