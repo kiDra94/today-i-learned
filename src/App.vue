@@ -26,17 +26,12 @@ const days = (month, data) => {
   let current_day = month.startOf("month");
   const to = month.endOf("month");
   while (current_day.isBefore(to, "day") || current_day.isSame(to, "day")) {
-    let isEventOnDay = false;
-    data.forEach(element => {
-      if (is_event(current_day, element["date"])) {
-        isEventOnDay = true;
-      }
-    });
+    const isEvent = data.some(event => is_event(current_day, event.date));
     const special_class = [
       is_today(current_day) ? "today_css" : "",
       past(current_day) ? "past_css" : "",
       weekend(current_day) ? "weekend_css" : "",
-      isEventOnDay ? "event_css" : ""
+      isEvent ? "event_css" : ""
     ].join(" ");
     result.push({ current_day, special_class });
     current_day = current_day.add(1, "day");
@@ -57,7 +52,6 @@ const fetcTils = async () => {
 onMounted(async () => {
   await fetcTils();
 });
-
 </script>
 
 <template>
