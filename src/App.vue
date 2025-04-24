@@ -68,15 +68,26 @@ onMounted(async () => {
     </div>
   </div>
 
-  <div>
+  <div class="overlay">
+    <div class="popup">
+      <input type="text">
+      <button>Add</button>
+      <button>Close</button>
+    </div>
     <h3>Add til</h3>
-    <input type="text">
-    <button>Add</button>
-    <button>Close</button>
   </div>
 </template>
 
 <style scoped>
+.overlay {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+
 .container {
   display: flex;
   width: 100vw;
