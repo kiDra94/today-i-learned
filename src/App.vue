@@ -58,8 +58,7 @@ onMounted(async () => {
 function addTil() {
   const tilsDate = currentDatePopup._rawValue.format('YYYY-MM-DD');
   const tilsDesc = document.getElementById("desc").value;
-  const data = {"date" : tilsDate, "desc" : tilsDesc};
-  tils._rawValue.push(data);
+  tils._rawValue.push({"date" : tilsDate, "desc" : tilsDesc});
   console.log(tils)
 }
 
