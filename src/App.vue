@@ -58,6 +58,14 @@ onMounted(async () => {
 function addTil() {
   console.log("Hallo Welt")
 }
+
+function openPopup(date) {
+  showPopup.value = true;
+  const key = date;
+  console.log(key);
+  console.log(key.format('YYYY-MM-DD'));
+  console.log(key.$d);
+}
 </script>
 
 <template>
@@ -67,7 +75,7 @@ function addTil() {
       <h3>{{ month.format("MMM") }}</h3>
       <div class="days">
         <div class="day" :class="date.special_class" v-for="date in days(month, tils)"
-          :key="date.current_day.format('YYYY-MM-DD')" @click="showPopup = true">
+          :key="date.current_day.format('YYYY-MM-DD')" @click="openPopup(date.current_day)">
           {{ date.current_day.format("ddd, DD") }}
         </div>
       </div>
@@ -76,7 +84,7 @@ function addTil() {
 
   <div class="overlay" v-show="showPopup">
     <div class="popup">
-      <h3>Add til</h3>
+      <h3>{{ popupTitle }}</h3>
       <input type="text">
       <button @click="addTil()">Add</button>
       <button @click="showPopup = false">Close</button>
