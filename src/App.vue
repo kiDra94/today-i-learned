@@ -59,12 +59,12 @@ function addTil() {
   console.log("Hallo Welt")
 }
 
+const popupTitle = ref("");
+
 function openPopup(date) {
   showPopup.value = true;
   const key = date;
-  console.log(key);
-  console.log(key.format('YYYY-MM-DD'));
-  console.log(key.$d);
+  popupTitle.value = key.format('ddd, DD');
 }
 </script>
 
