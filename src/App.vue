@@ -6,6 +6,8 @@ import { ref, onMounted } from "vue";
 const from = dayjs("2024-09-05 08:00");
 const to = dayjs("2025-07-07 08:00");
 const today = dayjs();
+const showPopup = ref(false);
+
 const is_today = (day) => day.isSame(today, "day");
 const weekend = (day) => day.day() == 0 || day.day() == 6; // 0 SO, 6 SA
 const past = (day) => day.isBefore(today, "day");
