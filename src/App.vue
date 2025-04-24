@@ -74,7 +74,7 @@ function addTil() {
     </div>
   </div>
 
-  <div class="overlay">
+  <div class="overlay" v-if="showPopup">
     <div class="popup">
       <h3>Add til</h3>
       <input type="text">
