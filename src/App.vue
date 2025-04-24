@@ -57,7 +57,7 @@ onMounted(async () => {
 
 function addTil() {
   const tilsDate = currentDatePopup._rawValue.format('YYYY-MM-DD');
-  const tilsDesc = "hallo";
+  const tilsDesc = document.getElementById("desc").value;
   const data = {"date" : tilsDate, "desc" : tilsDesc};
   tils._rawValue.push(data);
   console.log(tils)
@@ -91,7 +91,7 @@ function openPopup(date) {
   <div class="overlay" v-show="showPopup">
     <div class="popup">
       <h3>{{ popupTitle }}</h3>
-      <input type="text">
+      <input id="desc" type="text">
       <button @click="addTil()">Add</button>
       <button @click="showPopup = false">Close</button>
     </div>
