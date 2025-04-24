@@ -92,7 +92,7 @@ function openPopup(date) {
     <div class="popup">
       <h3>{{ popupTitle }}</h3>
       <input type="text">
-      <button @click="addTil(popupTitle)">Add</button>
+      <button @click="addTil()">Add</button>
       <button @click="showPopup = false">Close</button>
     </div>
   </div>
