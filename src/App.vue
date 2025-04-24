@@ -68,6 +68,12 @@ onMounted(async () => {
     </div>
   </div>
 
+  <div>
+    <h3>Add til</h3>
+    <input type="text">
+    <button>Add</button>
+    <button>Close</button>
+  </div>
 </template>
 
 <style scoped>
