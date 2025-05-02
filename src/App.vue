@@ -55,12 +55,20 @@ onMounted(async () => {
   await fetcTils();
 });
 
-function addTil() {
+const addTil = async () => {
   const tilsDate = currentDatePopup._rawValue.format('YYYY-MM-DD');
   const tilsDesc = document.getElementById("desc").value;
-  tils._rawValue.push({"date" : tilsDate, "desc" : tilsDesc});
-  console.log(tils)
+  tils._rawValue.push({ "date": tilsDate, "desc": tilsDesc });
+  const respons = await fetch("http://localhost:3000/db", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ "date": tilsDate, "desc": tilsDesc })
+  })
 }
+console.log(tils)
+
 
 const popupTitle = ref("");
 const currentDatePopup = ref(dayjs());
@@ -94,10 +102,22 @@ function openPopup(date) {
       <button @click="addTil()">Add</button>
       <button @click="showPopup = false">Close</button>
     </div>
+    <div class="show">
+       
+    </div>
   </div>
 </template>
 
 <style scoped>
+.show {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #f3f3f381;
+  width: 300px;
+  height: 200px;
+}
+
 .popup {
   background-color: #f3f3f381;
   width: 300px;
@@ -111,6 +131,7 @@ function openPopup(date) {
   left: 0;
   z-index: 1000;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   background-color: rgba(199, 199, 199, 0.5);
