@@ -64,7 +64,8 @@ const addTil = async () => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ "date": tilsDate, "desc": tilsDesc })
-  })
+  });
+  await fetcTils();
 }
 
 async function  updateTil(til) {
@@ -77,7 +78,8 @@ async function  updateTil(til) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({"id": tilID, "desc": tilsDesc, "subject": tilsSubject, "date": currentDatePopup.value.format("YYYY-MM-DD") })
-  })
+  });
+  await fetcTils();
 }
 
 async function  deleteTil(til) {
@@ -87,7 +89,8 @@ async function  deleteTil(til) {
     headers: {
       "Content-Type": "application/json",
     }
-  })
+  });
+  await fetcTils();
 }
 
 const popupTitle = ref("");
@@ -137,7 +140,8 @@ function enableEditing() {
   <div class="overlay" v-show="showPopup">
     <div class="popup">
       <h3>{{ popupTitle }}</h3>
-      <input id="desc" type="text">
+      <label for="addSubject" class="editSubject">Subject: <input id="subject" type="text"></label>
+      <label for="addDesc" class="editTil">TIL: <input id="desc" type="text"></label>
       <button @click="addTil()">Add</button>
       <button @click="enableEditing()">Edit</button>
       <button @click="showPopup = false">Close</button>
