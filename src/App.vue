@@ -67,7 +67,7 @@ const addTil = async () => {
   })
 }
 
-async function  updateTil(til, newSubject, newDescription) {
+async function  updateTil(til) {
   const tilID = til.id;
   const tilsDesc = document.getElementById('editDesc' + til.id).value;
   const tilsSubject = document.getElementById('editSubject' + til.id).value;
@@ -77,6 +77,16 @@ async function  updateTil(til, newSubject, newDescription) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({"id": tilID, "desc": tilsDesc, "subject": tilsSubject, "date": currentDatePopup.value.format("YYYY-MM-DD") })
+  })
+}
+
+async function  deleteTil(til) {
+  const tilID = til.id;
+  const respons = await fetch("http://localhost:3000/tils/" + tilID, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    }
   })
 }
 
@@ -134,7 +144,8 @@ function enableEditing() {
       <div class="show" :id="til.id" :key="til" v-for="til in getTilsforDate()">
         <label :for="'editSubject' + til.id" class="editSubject">Subject: <input :id="'editSubject' + til.id" type="text" class="edit" :value="til.subject" disabled></label>
         <label for="'editSueditDescbject' + til.id" class="editTil">TIL: <input :id="'editDesc' + til.id" type="text" class="edit" :value="til.desc" disabled></label>
-        <button @click="updateTil(til, newSubject, newDescription)">Update</button>
+        <button @click="updateTil(til)">Update</button>
+        <button @click="deleteTil(til)">Delete</button>
       </div>
     </div>
   </div>
