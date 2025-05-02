@@ -44,7 +44,7 @@ const days = (month, data) => {
 const tils = ref([]); // man gibt dem datentyp an welcher kommen wird, in unserem fall ist es eine Liste von Objekten
 const fetcTils = async () => {
   try {
-    const respons = await fetch("http://localhost:3000/db");
+    const respons = await fetch("http://localhost:3000/tils");
     tils.value = await respons.json();
   } catch (error) {
   }
@@ -58,12 +58,23 @@ const addTil = async () => {
   const tilsDate = currentDatePopup._rawValue.format('YYYY-MM-DD');
   const tilsDesc = document.getElementById("desc").value;
   tils._rawValue.push({ "date": tilsDate, "desc": tilsDesc });
-  const respons = await fetch("http://localhost:3000/db", {
+  const respons = await fetch("http://localhost:3000/tils", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ "date": tilsDate, "desc": tilsDesc })
+  })
+}
+
+async function  updateTil(til, newDescription) {
+  til.desc = newDescription;
+  const respons = await fetch("http://localhost:3000/tils", {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ "desc": newDescription })
   })
 }
 
@@ -110,26 +121,21 @@ const getTilsforDate = () => {
       <input id="desc" type="text">
       <button @click="addTil()">Add</button>
       <button @click="showPopup = false">Close</button>
-      <div class="show" :key="til.date" v-for="til in getTilsforDate()">
-        {{ til.desc }}
+      <button @click="updateTil(key, value)">Save</button>
+      <div class="show" :key="til" v-for="til in getTilsforDate()">
+        <input type="text" class="subject" :value="til.subject" disabled>
+        <input type="text" class="til" :value="til.desc" disabled>
       </div>
     </div>
   </div>
 </template>
 
 <style scoped>
-.show {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: #f3f3f381;
-  width: 300px;
-  height: 200px;
-}
-
 .popup {
   background-color: #f3f3f381;
-  width: 300px;
+  width: 500px; /* Adjusted to match the new .show width */
+  padding: 20px;
+  border-radius: 8px;
 }
 
 .overlay {
@@ -144,6 +150,38 @@ const getTilsforDate = () => {
   justify-content: center;
   align-items: center;
   background-color: rgba(199, 199, 199, 0.5);
+}
+
+.show {
+  display: flex; /* Enable flexbox for side-by-side inputs */
+  flex-direction: row;  /* Arrange inputs in a row */
+  align-items: center;  /* Vertically center items */
+  justify-content: space-between; /* Space between inputs */
+  width: 100%;      /* Take full width of .popup */
+  margin-top: 10px;
+}
+
+.show input {
+  margin-bottom: 0;
+  width: 48%;
+  box-sizing: border-box;
+}
+
+.subject {
+  font-weight: bold;
+}
+
+.til {
+  flex-grow: 1;
+}
+
+#desc {
+  width: 100%; /* Make the #desc input take full width */
+  margin-bottom: 10px; /* Add space below #desc */
+}
+
+.popup button {
+  margin-right: 10px; /* Add horizontal space between buttons */
 }
 
 .container {
