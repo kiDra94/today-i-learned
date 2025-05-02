@@ -1,20 +1,45 @@
 {
-    "db": [
-        {
-            "date": "2025-04-10",
-            "desc": "json-server verwenden"
-        },
-        {
-            "date": "2025-05-10",
-            "desc": "v-for wiederhikt"
-        },
-        {
-            "date": "2025-06-10",
-            "desc": "pointer"
-        },
-        {
-            "date": "2025-06-18",
-            "desc": "Notenschluss"
-        }
-    ] 
+  "tils": [
+    {
+      "date": "2025-04-10",
+      "desc": "json-server verwenden",
+      "id": "81b3",
+      "subject": "pos"
+    },
+    {
+      "date": "2025-05-10",
+      "desc": "v-for wiederhikt",
+      "id": "cd47",
+      "subject": "pos"
+    },
+    {
+      "date": "2025-06-10",
+      "desc": "pointer",
+      "id": "1e0a",
+      "subject": "pos"
+    },
+    {
+      "date": "2025-06-18",
+      "desc": "Notenschluss",
+      "id": "c5ee",
+      "subject": "pos"
+    },
+    {
+      "id": "e9a6",
+      "date": "2025-01-12",
+      "desc": "ewqewq"
+    },
+    {
+      "id": "fc93",
+      "date": "2025-05-02",
+      "subject": "MEDT",
+      "desc": "ugly code but working http request"
+    },
+    {
+      "id": "63a5",
+      "date": "2025-05-04",
+      "subject": "medt",
+      "desc": "testing clearing input after add"
+    }
+  ]
 }
