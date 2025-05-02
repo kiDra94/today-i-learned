@@ -67,19 +67,21 @@ const addTil = async () => {
   })
 }
 
-async function  updateTil(til, newDescription) {
+async function  updateTil(tilID, newSubject, newDescription) {
+  til.subject = newSubject
   til.desc = newDescription;
   const respons = await fetch("http://localhost:3000/tils", {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ "desc": newDescription })
+    body: JSON.stringify({ "desc": newDescription, "subject": newSubject })
   })
 }
 
 const popupTitle = ref("");
 const currentDatePopup = ref(dayjs());
+const currentSelectedTil = ref(null);
 
 function openPopup(date) {
   console.log(date.format("YYYY-MM-DD"));
@@ -128,11 +130,11 @@ function enableEditing() {
       <input id="desc" type="text">
       <button @click="addTil()">Add</button>
       <button @click="enableEditing()">Edit</button>
-      <button @click="updateTil(key, value)">Save</button>
       <button @click="showPopup = false">Close</button>
-      <div class="show" :key="til" v-for="til in getTilsforDate()">
-        <label for="">Subject: <input :id="'editSubject' + til.id" type="text" class="edit" :value="til.subject" disabled></label>
-        <label for="">TIL: <input :id="'editDesc' + til.id" type="text" class="edit" :value="til.desc" disabled></label>
+      <div class="show" :id="til.id" :key="til" v-for="til in getTilsforDate()">
+        <label :for="'editSubject' + til.id" class="editSubject">Subject: <input :id="'editSubject' + til.id" type="text" class="edit" :value="til.subject" disabled></label>
+        <label for="'editSueditDescbject' + til.id" class="editTil">TIL: <input :id="'editDesc' + til.id" type="text" class="edit" :value="til.desc" disabled></label>
+        <button @click="updateTil(til, newSubject, newDescription)">Save</button>
       </div>
     </div>
   </div>
