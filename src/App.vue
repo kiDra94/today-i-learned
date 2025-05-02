@@ -110,7 +110,7 @@ const getTilsforDate = () => {
       <input id="desc" type="text">
       <button @click="addTil()">Add</button>
       <button @click="showPopup = false">Close</button>
-      <div class="show" :key="til.date" v-for="til in getTilsforDate">
+      <div class="show" :key="til.date" v-for="til in getTilsforDate()">
         {{ til.desc }}
       </div>
     </div>
