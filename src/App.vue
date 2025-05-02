@@ -127,9 +127,9 @@ function enableEditing() {
       <h3>{{ popupTitle }}</h3>
       <input id="desc" type="text">
       <button @click="addTil()">Add</button>
-      <button @click="showPopup = false">Close</button>
-      <button @click="updateTil(key, value)">Save</button>
       <button @click="enableEditing()">Edit</button>
+      <button @click="updateTil(key, value)">Save</button>
+      <button @click="showPopup = false">Close</button>
       <div class="show" :key="til" v-for="til in getTilsforDate()">
         <input :id="'editSubject' + til.id" type="text" class="edit" :value="til.subject" disabled>
         <input :id="'editDesc' + til.id" type="text" class="edit" :value="til.desc" disabled>
