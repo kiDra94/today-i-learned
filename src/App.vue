@@ -42,7 +42,6 @@ const days = (month, data) => {
 }
 
 const tils = ref([]); // man gibt dem datentyp an welcher kommen wird, in unserem fall ist es eine Liste von Objekten
-console.log(tils);
 const fetcTils = async () => {
   try {
     const respons = await fetch("http://localhost:3000/db");
@@ -67,18 +66,28 @@ const addTil = async () => {
     body: JSON.stringify({ "date": tilsDate, "desc": tilsDesc })
   })
 }
-console.log(tils)
-
 
 const popupTitle = ref("");
 const currentDatePopup = ref(dayjs());
 
 function openPopup(date) {
+  console.log(date.format("YYYY-MM-DD"));
   showPopup.value = true;
   const key = date;
   popupTitle.value = key.format('ddd, DD, MMM');
   currentDatePopup.value = date;
 }
+
+const getTilsforDate = () => {
+  const matchingTils = [];
+  tils.value.forEach(til => {
+    if (til.date === currentDatePopup.value.format("YYYY-MM-DD")) {
+      matchingTils.push(til);
+    }
+  });
+  return matchingTils;
+}
+
 </script>
 
 <template>
@@ -101,9 +110,9 @@ function openPopup(date) {
       <input id="desc" type="text">
       <button @click="addTil()">Add</button>
       <button @click="showPopup = false">Close</button>
-    </div>
-    <div class="show">
-       
+      <div class="show" :key="til.date" v-for="til in getTilsforDate">
+        {{ til.desc }}
+      </div>
     </div>
   </div>
 </template>
