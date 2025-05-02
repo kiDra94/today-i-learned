@@ -99,6 +99,13 @@ const getTilsforDate = () => {
   return matchingTils;
 }
 
+function enableEditing() {
+  const inputs = document.querySelectorAll(".edit");
+  inputs.forEach(input => {
+    input.disabled = !input.disabled;
+  })
+}
+
 </script>
 
 <template>
@@ -122,9 +129,10 @@ const getTilsforDate = () => {
       <button @click="addTil()">Add</button>
       <button @click="showPopup = false">Close</button>
       <button @click="updateTil(key, value)">Save</button>
+      <button @click="enableEditing()">Edit</button>
       <div class="show" :key="til" v-for="til in getTilsforDate()">
-        <input type="text" class="subject" :value="til.subject" disabled>
-        <input type="text" class="til" :value="til.desc" disabled>
+        <input :id="'editSubject' + til.id" type="text" class="edit" :value="til.subject" disabled>
+        <input :id="'editDesc' + til.id" type="text" class="edit" :value="til.desc" disabled>
       </div>
     </div>
   </div>
@@ -167,11 +175,8 @@ const getTilsforDate = () => {
   box-sizing: border-box;
 }
 
-.subject {
+.edit {
   font-weight: bold;
-}
-
-.til {
   flex-grow: 1;
 }
 
