@@ -253,6 +253,10 @@ h3 {
   color: #495057;
 }
 
+.event_css.past_css {
+  color: #dc3546;
+}
+
 /* --- Overlay and Popup Styling --- */
 
 .overlay {
