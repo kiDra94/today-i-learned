@@ -42,6 +42,7 @@ const days = (month, data) => {
 }
 
 const tils = ref([]); // man gibt dem datentyp an welcher kommen wird, in unserem fall ist es eine Liste von Objekten
+
 const fetcTils = async () => {
   try {
     const respons = await fetch("http://localhost:3000/tils");
@@ -54,38 +55,43 @@ onMounted(async () => {
   await fetcTils();
 });
 
+const getInputValue = (id) => document.getElementById(id).value || "";
+const resetInputToEmpty = (id) =>  document.getElementById(id).value = "";
+const buildTilData = (descInputId, subjectInputID) => ({
+  "date": currentDatePopup._rawValue.format("YYYY-MM-DD"),
+  "desc": getInputValue(descInputId),
+  "subject": getInputValue(subjectInputID)
+});
+
 const addTil = async () => {
-  const tilsDate = currentDatePopup._rawValue.format('YYYY-MM-DD');
-  const tilsDesc = document.getElementById("desc").value;
-  const tilsSubject = document.getElementById("subject").value;
-  tils._rawValue.push({ "date": tilsDate, "desc": tilsDesc });
+  const tilData = buildTilData("desc", "subject");
+  tils._rawValue.push(tilData);
   const respons = await fetch("http://localhost:3000/tils", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ "date": tilsDate, "subject": tilsSubject, "desc": tilsDesc })
+    body: JSON.stringify(tilData)
   });
-  document.getElementById("desc").value = "";
-  document.getElementById("subject").value = "";
+  resetInputToEmpty("desc");
+  resetInputToEmpty("subject");
   await fetcTils();
 }
 
-async function  updateTil(til) {
+const updateTil = async (til) => {
   const tilID = til.id;
-  const tilsDesc = document.getElementById('editDesc' + til.id).value;
-  const tilsSubject = document.getElementById('editSubject' + til.id).value;
+  const tilData = buildTilData(('editDesc' + til.id), ('editSubject' + til.id));
   const respons = await fetch("http://localhost:3000/tils/" + tilID, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({"id": tilID, "desc": tilsDesc, "subject": tilsSubject, "date": currentDatePopup.value.format("YYYY-MM-DD") })
+    body: JSON.stringify(tilData)
   });
   await fetcTils();
 }
 
-async function  deleteTil(til) {
+const deleteTil = async (til) => {
   const tilID = til.id;
   const respons = await fetch("http://localhost:3000/tils/" + tilID, {
     method: "DELETE",
@@ -95,6 +101,8 @@ async function  deleteTil(til) {
   });
   await fetcTils();
 }
+
+
 
 const popupTitle = ref("");
 const currentDatePopup = ref(dayjs());
