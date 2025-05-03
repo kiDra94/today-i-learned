@@ -80,9 +80,9 @@ const buildHeader = (method, data) => (
   }
 )
 
-const handleRequest = async (url, method, data) => {
+const handleRequest = async (url, path, method, data) => {
   try {
-    const respons = await fetch(url, buildHeader(method, data));
+    const respons = await fetch(url + path, buildHeader(method, data));
     errorHandling(respons);
     await fetcTils();
   } catch (error) {
@@ -93,18 +93,18 @@ const handleRequest = async (url, method, data) => {
 const addTil = async () => {
   const tilData = buildTilData("desc", "subject");
   tils._rawValue.push(tilData);
-  await handleRequest("http://localhost:3000/tils", "POST", tilData)
+  await handleRequest("http://localhost:3000", "/tils", "POST", tilData)
   resetInputToEmpty("desc");
   resetInputToEmpty("subject");
 }
 
 const updateTil = async (til) => {
   const tilData = buildTilData(('editDesc' + til.id), ('editSubject' + til.id));
-  await handleRequest("http://localhost:3000/tils/" + til.id, "PUT", tilData);
+  await handleRequest("http://localhost:3000", "/tils/" + til.id, "PUT", tilData);
 }
 
 const deleteTil = async (til) => {
-  handleRequest("http://localhost:3000/tils/" + til.id, "DELETE")
+  handleRequest("http://localhost:3000", "/tils/" + til.id, "DELETE")
 }
 
 const popupTitle = ref("");
