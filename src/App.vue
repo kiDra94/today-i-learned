@@ -80,40 +80,31 @@ const buildHeader = (method, data) => (
   }
 )
 
-const addTil = async () => {
-  const tilData = buildTilData("desc", "subject");
-  tils._rawValue.push(tilData);
+const handleRequest = async (url, method, data) => {
   try {
-    const respons = await fetch("http://localhost:3000/tils", buildHeader("POST", tilData));
+    const respons = await fetch(url, buildHeader(method, data));
     errorHandling(respons);
-    resetInputToEmpty("desc");
-    resetInputToEmpty("subject");
     await fetcTils();
   } catch (error) {
     console.error("ERROR: " + error.status); //JS error handling
   }
 }
 
+const addTil = async () => {
+  const tilData = buildTilData("desc", "subject");
+  tils._rawValue.push(tilData);
+  await handleRequest("http://localhost:3000/tils", "POST", tilData)
+  resetInputToEmpty("desc");
+  resetInputToEmpty("subject");
+}
+
 const updateTil = async (til) => {
   const tilData = buildTilData(('editDesc' + til.id), ('editSubject' + til.id));
-  try {
-    const respons = await fetch("http://localhost:3000/tils/" + til.id, buildHeader("PUT", tilData));
-    errorHandling(respons);
-    await fetcTils();
-  } catch {
-    console.error("ERROR: " + error.status);
-  }
+  await handleRequest("http://localhost:3000/tils/" + til.id, "PUT", tilData);
 }
 
 const deleteTil = async (til) => {
-  const tilID = til.id;
-  try {
-    const respons = await fetch("http://localhost:3000/tils/" + tilID, buildHeader("DELETE"));
-    errorHandling(respons);
-    await fetcTils();
-  } catch {
-    console.error("ERROR: " + error.status);
-  }
+  handleRequest("http://localhost:3000/tils/" + til.id, "DELETE")
 }
 
 const popupTitle = ref("");
