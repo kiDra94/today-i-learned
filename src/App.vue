@@ -70,18 +70,21 @@ const errorHandling = (respons) => {
     alert("Something went wront ERROR: " + respons.status);
   }
 }
+const buildHeader = (method, data) => (
+  {
+    method: method,
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data)
+  }
+)
 
 const addTil = async () => {
   const tilData = buildTilData("desc", "subject");
   tils._rawValue.push(tilData);
   try {
-    const respons = await fetch("http://localhost:3000/tils", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(tilData)
-    });
+    const respons = await fetch("http://localhost:3000/tils", buildHeader("POST", tilData));
     errorHandling(respons);
     resetInputToEmpty("desc");
     resetInputToEmpty("subject");
@@ -92,16 +95,9 @@ const addTil = async () => {
 }
 
 const updateTil = async (til) => {
-  const tilID = til.id;
   const tilData = buildTilData(('editDesc' + til.id), ('editSubject' + til.id));
   try {
-    const respons = await fetch("http://localhost:3000/tils/" + tilID, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(tilData)
-    });
+    const respons = await fetch("http://localhost:3000/tils/" + til.id, buildHeader("PUT", tilData));
     errorHandling(respons);
     await fetcTils();
   } catch {
@@ -112,12 +108,7 @@ const updateTil = async (til) => {
 const deleteTil = async (til) => {
   const tilID = til.id;
   try {
-    const respons = await fetch("http://localhost:3000/tils/" + tilID, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      }
-    });
+    const respons = await fetch("http://localhost:3000/tils/" + tilID, buildHeader("DELETE"));
     errorHandling(respons);
     await fetcTils();
   } catch {
