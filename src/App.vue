@@ -41,8 +41,6 @@ const days = (month, data) => {
   return result;
 }
 
-const tils = ref([]); // man gibt dem datentyp an welcher kommen wird, in unserem fall ist es eine Liste von Objekten
-
 const getInputValue = (id) => document.getElementById(id).value || "";
 const resetInputToEmpty = (id) => document.getElementById(id).value = "";
 const buildTilData = (descInputId, subjectInputID) => ({
@@ -73,7 +71,7 @@ const handleRequest = async (url, path, method, data) => {
     if (method === "GET") {
       return await respons.json();
     } else {
-      await fetcTils();
+      await fetchData("/tils");
     }
   } catch (error) {
     console.error("ERROR: " + error.status); //JS error handling
@@ -81,21 +79,26 @@ const handleRequest = async (url, path, method, data) => {
 }
 
 const host = "http://localhost:3000";
+const tils = ref([]); // man gibt dem datentyp an welcher kommen wird, in unserem fall ist es eine Liste von Objekten
+const subjects = ref([]);
 
-const fetcTils = async () => {
-  const data = await handleRequest(host, "/tils", "GET");
+const fetchData = async (path) => {
+  const data = await handleRequest(host, path, "GET");
   if (data) {
     tils.value = data;
   };
 }
 
 onMounted(async () => {
-  await fetcTils();
+  await fetchData("/tils");
+  await fetchData("/subject");
 });
 
-const addTil = async () => {
+const addData = async () => {
+  // TODO: implement if and mazbe a const tilBtnList to use the same
+  // function for /tils and /subject
   tils._rawValue.push(buildTilData("desc", "subject"));
-  await handleRequest(host, "/tils", "POST", buildTilData("desc", "subject"))
+  await handleRequest(host, path, "POST", buildTilData("desc", "subject"))
   resetInputToEmpty("desc");
   resetInputToEmpty("subject");
 }
@@ -157,7 +160,7 @@ function enableEditing() {
       <h3>{{ popupTitle }}</h3>
       <label for="addSubject" class="editSubject">Subject: <input id="subject" type="text"></label>
       <label for="addDesc" class="editTil">TIL: <input id="desc" type="text"></label>
-      <button @click="addTil()">Add</button>
+      <button @click="addData()">Add</button>
       <button @click="enableEditing()">Edit</button>
       <button @click="showPopup = false">Close</button>
       <div class="show" :id="til.id" :key="til" v-for="til in getTilsforDate()">
