@@ -43,20 +43,6 @@ const days = (month, data) => {
 
 const tils = ref([]); // man gibt dem datentyp an welcher kommen wird, in unserem fall ist es eine Liste von Objekten
 
-const fetcTils = async () => {
-  try {
-    const respons = await fetch("http://localhost:3000/tils");
-    tils.value = await respons.json();
-    errorHandling(respons);
-  } catch (error) {
-    console.log("ERROR: " + error.message);
-  }
-}
-
-onMounted(async () => {
-  await fetcTils();
-});
-
 const getInputValue = (id) => document.getElementById(id).value || "";
 const resetInputToEmpty = (id) => document.getElementById(id).value = "";
 const buildTilData = (descInputId, subjectInputID) => ({
@@ -84,27 +70,43 @@ const handleRequest = async (url, path, method, data) => {
   try {
     const respons = await fetch(url + path, buildHeader(method, data));
     errorHandling(respons);
-    await fetcTils();
+    if (method === "GET") {
+      return await respons.json();
+    } else {
+      await fetcTils();
+    }
   } catch (error) {
     console.error("ERROR: " + error.status); //JS error handling
   }
 }
 
+const host = "http://localhost:3000";
+
+const fetcTils = async () => {
+  const data = await handleRequest(host, "/tils", "GET");
+  if (data) {
+    tils.value = data;
+  };
+}
+
+onMounted(async () => {
+  await fetcTils();
+});
+
 const addTil = async () => {
-  const tilData = buildTilData("desc", "subject");
-  tils._rawValue.push(tilData);
-  await handleRequest("http://localhost:3000", "/tils", "POST", tilData)
+  tils._rawValue.push(buildTilData("desc", "subject"));
+  await handleRequest(host, "/tils", "POST", buildTilData("desc", "subject"))
   resetInputToEmpty("desc");
   resetInputToEmpty("subject");
 }
 
 const updateTil = async (til) => {
-  const tilData = buildTilData(('editDesc' + til.id), ('editSubject' + til.id));
-  await handleRequest("http://localhost:3000", "/tils/" + til.id, "PUT", tilData);
+  await handleRequest(host, "/tils" + "/" + til.id, "PUT",
+    buildTilData(('editDesc' + til.id), ('editSubject' + til.id)));
 }
 
 const deleteTil = async (til) => {
-  handleRequest("http://localhost:3000", "/tils/" + til.id, "DELETE")
+  await handleRequest(host, "/tils" + "/" + til.id, "DELETE")
 }
 
 const popupTitle = ref("");
