@@ -59,6 +59,180 @@
       "date": "2025-05-04",
       "desc": "",
       "subject": "MEDT"
+    },
+    {
+      "date": "2025-04-12",
+      "desc": "Entity Relationship Diagram erstellen",
+      "id": "e30a",
+      "subject": "DB"
+    },
+    {
+      "date": "2025-05-15",
+      "desc": "SQL JOINs richtig anwenden",
+      "id": "ae2f",
+      "subject": "DB"
+    },
+    {
+      "date": "2025-05-25",
+      "desc": "Datenbank normalisieren",
+      "id": "fa29",
+      "subject": "DB"
+    },
+    {
+      "date": "2025-04-10",
+      "desc": "Shell-Skripte für Automatisierung schreiben",
+      "id": "a5f3",
+      "subject": "AUT"
+    },
+    {
+      "date": "2025-04-20",
+      "desc": "Testing von Automatisierungsprozessen",
+      "id": "b7d2",
+      "subject": "AUT"
+    },
+    {
+      "date": "2025-06-10",
+      "desc": "Backup-Strategien für Server",
+      "id": "cb72",
+      "subject": "AUT"
+    },
+    {
+      "date": "2025-04-18",
+      "desc": "Lineare Algebra anwenden",
+      "id": "5d9b",
+      "subject": "MATH"
+    },
+    {
+      "date": "2025-05-05",
+      "desc": "Vektoren und Matrizen",
+      "id": "3b21",
+      "subject": "MATH"
+    },
+    {
+      "date": "2025-06-05",
+      "desc": "Differentialgleichungen lösen",
+      "id": "c8d4",
+      "subject": "MATH"
+    },
+    {
+      "date": "2025-05-10",
+      "desc": "Biblia historia correcta",
+      "id": "a9f8",
+      "subject": "RELI"
+    },
+    {
+      "date": "2025-06-12",
+      "desc": "Philosophie des Christentums",
+      "id": "94b7",
+      "subject": "RELI"
+    },
+    {
+      "date": "2025-04-25",
+      "desc": "Kritische Theologie",
+      "id": "32f4",
+      "subject": "RELI"
+    },
+    {
+      "date": "2025-05-18",
+      "desc": "Datenstrukturen in Java",
+      "id": "9d5b",
+      "subject": "TINF"
+    },
+    {
+      "date": "2025-06-01",
+      "desc": "Fehlerbehebung in Java",
+      "id": "a7d5",
+      "subject": "TINF"
+    },
+    {
+      "date": "2025-06-15",
+      "desc": "Java und OOP Konzepte vertiefen",
+      "id": "f5e2",
+      "subject": "TINF"
+    },
+    {
+      "date": "2025-04-17",
+      "desc": "Einführung in Web-Entwicklung",
+      "id": "4d92",
+      "subject": "SYP"
+    },
+    {
+      "date": "2025-05-10",
+      "desc": "HTML und CSS Grundlagen",
+      "id": "d92f",
+      "subject": "SYP"
+    },
+    {
+      "date": "2025-06-15",
+      "desc": "JavaScript und dynamische Webseiten",
+      "id": "ff1e",
+      "subject": "SYP"
+    },
+    {
+      "date": "2025-04-30",
+      "desc": "Software-Entwicklungsprozess verstehen",
+      "id": "9f72",
+      "subject": "SYP"
+    },
+    {
+      "date": "2025-05-20",
+      "desc": "Konzepte der Softwarearchitektur",
+      "id": "f24d",
+      "subject": "SYP"
+    },
+    {
+      "date": "2025-04-10",
+      "desc": "Bedeutung der Sozialpsychologie",
+      "id": "b3f6",
+      "subject": "SYP"
+    },
+    {
+      "date": "2025-06-08",
+      "desc": "Erklärung der Motivationstheorien",
+      "id": "f8e3",
+      "subject": "SYP"
+    },
+    {
+      "date": "2025-06-15",
+      "desc": "Verhaltensforschung und ihre Anwendungen",
+      "id": "6d29",
+      "subject": "SYP"
+    },
+    {
+      "date": "2025-05-05",
+      "desc": "Zoologische Theorien",
+      "id": "7e9c",
+      "subject": "NSVS"
+    },
+    {
+      "date": "2025-06-01",
+      "desc": "Ökologische Systeme verstehen",
+      "id": "8f33",
+      "subject": "NSVS"
+    },
+    {
+      "date": "2025-05-25",
+      "desc": "Tierverhalten und soziale Strukturen",
+      "id": "7b2a",
+      "subject": "NSVS"
+    },
+    {
+      "date": "2025-04-20",
+      "desc": "Einführung in Positivismus",
+      "id": "ac1b",
+      "subject": "POS"
+    },
+    {
+      "date": "2025-06-10",
+      "desc": "Funktionale Programmierung vertiefen",
+      "id": "a2c3",
+      "subject": "POS"
+    },
+    {
+      "date": "2025-05-14",
+      "desc": "Webtechnologien und ihre Anwendungen",
+      "id": "f2b1",
+      "subject": "POS"
     }
   ],
   "subject": [
