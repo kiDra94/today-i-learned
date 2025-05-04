@@ -194,7 +194,7 @@ const containsAnySubject = (subjects, subjectsOnDay) => {
     <div class="subjectsDiv">
       <h3>Subjects</h3>
       <div class="subjectDiv" v-for="subject in subjects" :key="subject.id" :id="subject.id"
-        @click="showSubjectTil(subject)">
+        @click="showSubjectTil(subject)" :class="{ active: selectedSubjects.includes(subject.desc) }">
         {{ subject.desc }}
       </div>
     </div>
@@ -274,6 +274,10 @@ const containsAnySubject = (subjects, subjectsOnDay) => {
   margin-bottom: 8px;
   width: 130px;
   transition: background 0.2s;
+}
+
+.active {
+  font-weight: bold;
 }
 
 .subjectDiv:last-child {
