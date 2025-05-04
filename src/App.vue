@@ -1,7 +1,7 @@
 <script setup>
 import dayjs from 'dayjs';
 import 'dayjs/locale/de';
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 
 const from = dayjs("2024-09-05 08:00");
 const to = dayjs("2025-07-07 08:00");
@@ -29,11 +29,15 @@ const days = (month, data) => {
   const to = month.endOf("month");
   while (current_day.isBefore(to, "day") || current_day.isSame(to, "day")) {
     const isEvent = data.some(event => is_event(current_day, event.date));
+    const dateKey = current_day.format("YYYY-MM-DD");
+    const subjectsForThisDay = tilsByDay.value[dateKey];
+    const hasSelectedSubject = containsAnySubject(selectedSubjects.value, subjectsForThisDay);
     const special_class = [
       is_today(current_day) ? "today_css" : "",
       past(current_day) ? "past_css" : "",
       weekend(current_day) ? "weekend_css" : "",
-      isEvent ? "event_css" : ""
+      isEvent ? "event_css" : "",
+      hasSelectedSubject ? "selecetedSubject_css" : ""
     ].join(" ");
     result.push({ current_day, special_class });
     current_day = current_day.add(1, "day");
@@ -95,6 +99,8 @@ const fetchData = async (path) => {
 
 onMounted(async () => {
   await fetchData("/tils");
+  console.log("tilsByDay nach erfolgreichem Laden der Daten:", tilsByDay.value); // gemini gefragt, da ich nicht gewusst habe wie es lösen soll
+  // problem war, das ich die tils ja erst später kriege und dadurch meine tilsByValue leer war
   await fetchData("/subject");
 });
 
@@ -158,10 +164,26 @@ const selectedSubjects = ref([]);
 
 const showSubjectTil = (subject) => {
   if (selectedSubjects.value.includes(subject.desc)) {
-    selectedSubjects.value = selectedSubjects.value.filter((word) => word !== subject.desc)
+    selectedSubjects.value = selectedSubjects.value.filter((word) => word !== subject.desc);
   } else {
     selectedSubjects.value.push(subject.desc)
   };
+}
+
+const tilsByDay = computed(() => {
+  const dayTilsDict = {};
+  tils.value.forEach(til => {
+    const dateKey = til.date;
+    if (!dayTilsDict[dateKey]) {
+      dayTilsDict[dateKey] = [];
+    }
+    dayTilsDict[dateKey].push(til.subject);
+  });
+  return dayTilsDict;
+});
+
+const containsAnySubject = (subjects, subjectsOnDay) => {
+  return subjects.some(subject => subjectsOnDay.includes(subject));
 }
 
 </script>
@@ -171,7 +193,8 @@ const showSubjectTil = (subject) => {
   <div class="container">
     <div class="subjectsDiv">
       <h3>Subjects</h3>
-      <div class="subjectDiv" v-for="subject in subjects" :key="subject.id" :id="subject.id">
+      <div class="subjectDiv" v-for="subject in subjects" :key="subject.id" :id="subject.id"
+        @click="showSubjectTil(subject)">
         {{ subject.desc }}
       </div>
     </div>
@@ -179,7 +202,7 @@ const showSubjectTil = (subject) => {
     <div class="month" v-for="month in months(from, to)" :key="month.format('YYYY-MM')">
       <h3>{{ month.format("MMM") }}</h3>
       <div class="days">
-        <div class="day" :class="date.special_class" v-for="date in days(month, tils)"
+        <div class="day" :class="date.special_class, test" v-for="date in days(month, tils)"
           :key="date.current_day.format('YYYY-MM-DD')" @click="openPopup(date.current_day)">
           {{ date.current_day.format("ddd, DD") }}
         </div>
