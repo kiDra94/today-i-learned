@@ -7,6 +7,8 @@ const from = dayjs("2024-09-05 08:00");
 const to = dayjs("2025-07-07 08:00");
 const today = dayjs();
 const showPopup = ref(false);
+const showPopupModify = ref(false);
+const isEditing = ref(false);
 
 const is_today = (day) => day.isSame(today, "day");
 const weekend = (day) => day.day() == 0 || day.day() == 6; // 0 SO, 6 SA
@@ -27,6 +29,9 @@ const days = (month, data) => {
   const result = [];
   let current_day = month.startOf("month");
   const to = month.endOf("month");
+  const containsAnySubject = (subjects, subjectsOnDay) => {
+    return subjects.some(subject => subjectsOnDay.includes(subject));
+  }
   while (current_day.isBefore(to, "day") || current_day.isSame(to, "day")) {
     const isEvent = data.some(event => is_event(current_day, event.date));
     const dateKey = current_day.format("YYYY-MM-DD");
@@ -99,8 +104,6 @@ const fetchData = async (path) => {
 
 onMounted(async () => {
   await fetchData("/tils");
-  // console.log("tilsByDay nach erfolgreichem Laden der Daten:", tilsByDay.value); // gemini gefragt, da ich nicht gewusst habe wie es lösen soll
-  // // problem war, das ich die tils ja erst später kriege und dadurch meine tilsByValue leer war
   await fetchData("/subject");
 });
 
@@ -118,7 +121,7 @@ const addData = async () => {
 const updateData = async (til) => {
   if (document.getElementsByClassName("til")) {
     await handleRequest(host, "/tils" + "/" + til.id, "PUT",
-      buildTilData(('editDesc' + til.id), ('editSubject' + til.id)));
+      buildTilData(('editDesc' + til.id), ('editSubjectTil' + til.id)));
   } else if (document.getElementsByClassName("subject")) {
     // todo 
   };
@@ -182,8 +185,8 @@ const tilsByDay = computed(() => {
   return dayTilsDict;
 });
 
-const containsAnySubject = (subjects, subjectsOnDay) => {
-  return subjects.some(subject => subjectsOnDay.includes(subject));
+function openPopupModify() {
+  showPopupModify.value = true;
 }
 
 </script>
@@ -197,6 +200,7 @@ const containsAnySubject = (subjects, subjectsOnDay) => {
         @click="showSubjectTil(subject)" :class="{ active: selectedSubjects.includes(subject.desc) }">
         {{ subject.desc }}
       </div>
+      <button class="subject" @click="openPopupModify()">Modify Data</button>
     </div>
 
     <div class="month" v-for="month in months(from, to)" :key="month.format('YYYY-MM')">
@@ -213,7 +217,7 @@ const containsAnySubject = (subjects, subjectsOnDay) => {
   <div class="overlay" v-show="showPopup">
     <div class="popup">
       <h3>{{ popupTitle }}</h3>
-      <label for="editSubject" class="editSubject">Subject:
+      <label for="editSubjectTil" class="editSubjectTil">Subject:
         <select id="subject">
           <option v-for="subject in subjects" :value="subject.desc" :key="subject.id">
             {{ subject.desc }}
@@ -225,8 +229,8 @@ const containsAnySubject = (subjects, subjectsOnDay) => {
       <button class="til" @click="enableEditing()">Edit</button>
       <button @click="showPopup = false">Close</button>
       <div class="show" :id="til.id" :key="til.id" v-for="til in getTilsforDate()">
-        <label :for="'editSubject' + til.id" class="editSubject">Subject:
-          <select v-model="til.subject" :id="'editSubject' + til.id" class="edit" disabled>
+        <label :for="'editSubjectTil' + til.id" class="editSubjectTil">Subject:
+          <select v-model="til.subject" :id="'editSubjectTil' + til.id" class="edit" disabled>
             <option v-for="subject in subjects" :value="subject.desc" :key="subject.id">
               {{ subject.desc }}
             </option>
@@ -237,6 +241,31 @@ const containsAnySubject = (subjects, subjectsOnDay) => {
         <button class="til" @click="updateData(til)">Update</button>
         <button class="til" @click="deleteData(til)">Delete</button>
       </div>
+    </div>
+  </div>
+
+  <div class="overlay" v-show="showPopupModify">
+    <div class="popup">
+      <h3>Modify Subject</h3>
+      <label for="modifySubject" class="editSubject">Subject name to add: <input id="subjectName" type="text"></label>
+      <button class="subject" @click="addData()">Add</button>
+      <label for="editSubject" class="editSubject">Subject:
+        <select id="subjectModify" v-model="selecteSubj">
+          <option v-for="subject in subjects" :value="subject.desc" :key="subject.id">
+            {{ subject.desc }}
+          </option>
+        </select>
+      </label>
+      <div v-if="isEditing" class="editSubject">
+        <label for="newSubjectName">New Subject Name:
+          <input id="newSubjectName" v-model="newSubjectName" type="text">
+        </label>
+        <button class="subject" @click="updateData()">Save</button>
+        <button class="subject" @click="isEditing = false">Cancel</button>
+      </div>
+      <button class="subject" @click="isEditing = true">Update</button>
+      <button class="subject" @click="deleteData(selectedSubjects)">Delete</button>
+      <button @click="showPopupModify = false">Close</button>
     </div>
   </div>
 </template>
@@ -336,31 +365,45 @@ const containsAnySubject = (subjects, subjectsOnDay) => {
 }
 
 .months-container.filter-active .day:not(.selecetedSubject_css) {
-    opacity: 0.5; /* Reduziere die Deckkraft, um es auszugrauen */
-    filter: grayscale(80%); /* Mache es gräulicher */
-    color: #999; /* Ändere die Textfarbe zu grau */
-    /* Optional: Entferne den Cursor, da es nicht mehr das "Hauptziel" ist */
-    cursor: default;
-    /* Optional: Stelle sicher, dass Hover-Effekte auf ausgegrauten Elementen reduziert sind */
-    pointer-events: none; /* Kann Klicks auf diese Elemente verhindern, falls gewünscht */
+  opacity: 0.5;
+  /* Reduziere die Deckkraft, um es auszugrauen */
+  filter: grayscale(80%);
+  /* Mache es gräulicher */
+  color: #999;
+  /* Ändere die Textfarbe zu grau */
+  /* Optional: Entferne den Cursor, da es nicht mehr das "Hauptziel" ist */
+  cursor: default;
+  /* Optional: Stelle sicher, dass Hover-Effekte auf ausgegrauten Elementen reduziert sind */
+  pointer-events: none;
+  /* Kann Klicks auf diese Elemente verhindern, falls gewünscht */
 }
 
 /* Stil für die Tage, die das ausgewählte Subject haben */
 /* Diese Klasse definiert die Hervorhebung selbst */
 /* Stelle sicher, dass diese Stile nicht vom Ausgrau-Stil überschrieben werden (z.B. durch spezifischere Selektoren oder die Reihenfolge) */
 .selecetedSubject_css {
-    /* Deine gewünschten Hervorhebungs-Stile (z.B. Hintergrund, Rahmen, Schrift) */
-    background-color: #ccccff; /* Beispiel: Heller Blauton */
-    border-color: #0000cc;     /* Beispiel: Dunklerer Rahmen */
-    font-weight: bold;         /* Beispiel: Schrift fett machen */
-    /* Stelle sicher, dass sie sichtbar bleiben */
-    opacity: 1 !important;     /* Setze die Deckkraft explizit auf voll, um den obigen Stil zu überschreiben */
-    filter: none !important;   /* Entferne den Graustufen-Filter */
-    color: inherit;          /* Setze die Textfarbe zurück, falls oben geändert */
-    cursor: pointer;         /* Behalte den Cursor bei */
-    pointer-events: auto;    /* Erlaube Klicks */
-    position: relative;      /* Kann nützlich sein, um es über ausgegrauten Elementen zu positionieren */
-    z-index: 1;              /* Stelle sicher, dass es vorne liegt */
+  /* Deine gewünschten Hervorhebungs-Stile (z.B. Hintergrund, Rahmen, Schrift) */
+  background-color: #ccccff;
+  /* Beispiel: Heller Blauton */
+  border-color: #0000cc;
+  /* Beispiel: Dunklerer Rahmen */
+  font-weight: bold;
+  /* Beispiel: Schrift fett machen */
+  /* Stelle sicher, dass sie sichtbar bleiben */
+  opacity: 1 !important;
+  /* Setze die Deckkraft explizit auf voll, um den obigen Stil zu überschreiben */
+  filter: none !important;
+  /* Entferne den Graustufen-Filter */
+  color: inherit;
+  /* Setze die Textfarbe zurück, falls oben geändert */
+  cursor: pointer;
+  /* Behalte den Cursor bei */
+  pointer-events: auto;
+  /* Erlaube Klicks */
+  position: relative;
+  /* Kann nützlich sein, um es über ausgegrauten Elementen zu positionieren */
+  z-index: 1;
+  /* Stelle sicher, dass es vorne liegt */
 }
 
 .overlay {
@@ -450,7 +493,12 @@ const containsAnySubject = (subjects, subjectsOnDay) => {
   flex-shrink: 0;
 }
 
-.show .editSubject {
+.editSubject {
+  margin-bottom: 1.5rem;
+}
+
+
+.show .editSubjectTil {
   flex-grow: 0;
 }
 
