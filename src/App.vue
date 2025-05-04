@@ -207,7 +207,7 @@ function openPopupModify() {
         @click="showSubjectTil(subject)" :class="{ active: selectedSubjects.includes(subject.desc) }">
         {{ subject.desc }}
       </div>
-      <button class="subject" @click="openPopupModify()">Modify Data</button>
+      <button id="modifySbjData" class="subject" @click="openPopupModify()">Modify Data</button>
     </div>
 
     <div class="month" v-for="month in months(from, to)" :key="month.format('YYYY-MM')">
@@ -411,6 +411,21 @@ function openPopupModify() {
   /* Kann nützlich sein, um es über ausgegrauten Elementen zu positionieren */
   z-index: 1;
   /* Stelle sicher, dass es vorne liegt */
+}
+
+#modifySbjData {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  background-color: #0066cc;
+  color: #fff;
+  transition: background 0.3s;
+  width: 100%; /* Optional, je nach Bedarf */
+}
+
+#modifySbjData:hover {
+  background-color: #004999;
 }
 
 .overlay {
