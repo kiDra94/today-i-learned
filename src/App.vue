@@ -159,6 +159,13 @@ function enableEditing() {
 <template>
 
   <div class="container">
+    <div class="subjectsDiv">
+      <h3>Subjects</h3>
+      <div class="subjectDiv" v-for="subject in subjects" :key="subject.id" :id="subject.id">
+        {{ subject.desc }}
+      </div>
+    </div>
+
     <div class="month" v-for="month in months(from, to)" :key="month.format('YYYY-MM')">
       <h3>{{ month.format("MMM") }}</h3>
       <div class="days">
@@ -180,21 +187,20 @@ function enableEditing() {
           </option>
         </select>
       </label>
-      <!-- <label for="addSubject" class="editSubject">Subject: <input id="subject" type="text"></label> -->
       <label for="addDesc" class="editTil">TIL: <input id="desc" type="text"></label>
       <button class="til" @click="addData()">Add</button>
       <button class="til" @click="enableEditing()">Edit</button>
       <button @click="showPopup = false">Close</button>
       <div class="show" :id="til.id" :key="til.id" v-for="til in getTilsforDate()">
-          <label :for="'editSubject' + til.id" class="editSubject">Subject:
-            <select v-model="til.subject" :id="'editSubject' + til.id" class="edit" disabled>
-              <option v-for="subject in subjects" :value="subject.desc" :key="subject.id">
-                {{ subject.desc }}
-              </option>
-            </select>
-          </label>
-          <label for="'editSueditDescbject' + til.id" class="editTil">TIL: <input :id="'editDesc' + til.id" type="text"
-              class="edit" :value="til.desc" disabled></label>
+        <label :for="'editSubject' + til.id" class="editSubject">Subject:
+          <select v-model="til.subject" :id="'editSubject' + til.id" class="edit" disabled>
+            <option v-for="subject in subjects" :value="subject.desc" :key="subject.id">
+              {{ subject.desc }}
+            </option>
+          </select>
+        </label>
+        <label for="'editSueditDescbject' + til.id" class="editTil">TIL: <input :id="'editDesc' + til.id" type="text"
+            class="edit" :value="til.desc" disabled></label>
         <button class="til" @click="updateData(til)">Update</button>
         <button class="til" @click="deleteData(til)">Delete</button>
       </div>
@@ -208,6 +214,45 @@ function enableEditing() {
   display: flex;
   flex-direction: row;
   gap: 2rem;
+}
+
+.subjectsDiv {
+  border: 1px solid #ddd;
+  padding: 1rem;
+  border-radius: 8px;
+  background-color: #fdfdfd;
+  flex-shrink: 0;
+  width: 150px;
+}
+
+.subjectsDiv h3 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 0.5rem;
+}
+
+.subjectDiv {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background-color: #f9f9f9;
+    cursor: pointer;
+    margin-bottom: 8px;
+    width: 130px;
+    transition: background 0.2s;
+}
+
+.subjectDiv:last-child {
+    margin-bottom: 0;
+}
+
+.subjectDiv:hover {
+    background-color: #eaeaea;
+}
+
+.months-container {
+  flex-grow: 1;
 }
 
 .month {
@@ -340,15 +385,13 @@ function enableEditing() {
     flex-shrink: 0;
 }
 
-/* Spezifisches Styling für das Subject-Label, damit es nicht wächst */
 .show .editSubject {
     flex-grow: 0;
 }
 
-/* Spezifisches Styling für das TIL-Label, damit es wächst */
 .show .editTil {
-    flex-grow: 1; /* Lässt das Label den verfügbaren Platz einnehmen */
-    flex-basis: 0; /* Optional: Hilft flex-grow, den Platz von einer Basisgröße Null zu verteilen */
+    flex-grow: 1;
+    flex-basis: 0;
 }
 
 
@@ -360,21 +403,18 @@ function enableEditing() {
 }
 
 .show input[type="text"] {
-    width: 100%; /* Füllt die Breite des Eltern-Labels aus */
-    flex-grow: 0; /* Das Input-Feld selbst muss nicht mehr wachsen, da das Eltern-Label wächst */
+    width: 100%;
+    flex-grow: 0;
     margin-top: 0;
-    /* min-width könnte hier in Pixeln nützlich sein, um eine absolute Mindestgröße zu gewährleisten */
-    /* z.B. min-width: 200px; */
 }
 
 .show button {
     flex-shrink: 0;
     margin-right: 0;
-    margin-left: auto; /* Schiebt diesen Button und die folgenden nach rechts */
+    margin-left: auto;
 }
 
 .show button + button {
-    margin-left: 10px; /* Abstand zwischen den Buttons */
+    margin-left: 10px;
 }
-
 </style>
