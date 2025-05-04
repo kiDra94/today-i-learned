@@ -57,6 +57,9 @@ const buildTilData = (descInputId, subjectInputID) => ({
   "desc": getInputValue(descInputId),
   "subject": getInputValue(subjectInputID)
 });
+const buildSubjectData = (subjectId) => ({
+  "desc": getInputValue(subjectId)
+});
 const errorHandling = (respons) => {
   if (!respons.ok) {
     console.log("ERROR: " + respons.status);
@@ -81,6 +84,7 @@ const handleRequest = async (url, path, method, data) => {
       return await respons.json();
     } else {
       await fetchData("/tils");
+      await fetchData("/subject")
     }
   } catch (error) {
     console.error("ERROR: " + error.status); //JS error handling
@@ -90,6 +94,7 @@ const handleRequest = async (url, path, method, data) => {
 const host = "http://localhost:3000";
 const tils = ref([]); // man gibt dem datentyp an welcher kommen wird, in unserem fall ist es eine Liste von Objekten
 const subjects = ref([]);
+const selectedSbj = ref(null);
 
 const fetchData = async (path) => {
   const data = await handleRequest(host, path, "GET");
@@ -107,32 +112,34 @@ onMounted(async () => {
   await fetchData("/subject");
 });
 
-const addData = async () => {
-  if (document.getElementsByClassName("til")) {
+const addData = async (endPoint) => {
+  if (endPoint === "/til") {
     tils._rawValue.push(buildTilData("desc", "subject"));
-    await handleRequest(host, "/tils", "POST", buildTilData("desc", "subject"))
+    await handleRequest(host, "/tils", "POST", buildTilData("desc", "subject"));
     resetInputToEmpty("desc");
     resetInputToEmpty("subject")
-  } else if (document.getElementsByClassName("subject")) {
-    // todo 
+  } else if (endPoint === "/subject") {
+    await handleRequest(host, "/subject", "POST", buildSubjectData("subjectName"));
+    resetInputToEmpty("subjectName");
+    console.log("subject");
   };
 }
 
-const updateData = async (til) => {
-  if (document.getElementsByClassName("til")) {
-    await handleRequest(host, "/tils" + "/" + til.id, "PUT",
-      buildTilData(('editDesc' + til.id), ('editSubjectTil' + til.id)));
-  } else if (document.getElementsByClassName("subject")) {
-    // todo 
+const updateData = async (api, endPoint) => {
+  if (endPoint === "/til") {
+    await handleRequest(host, "/tils" + "/" + api.id, "PUT",
+      buildTilData(('editDesc' + api.id), ('editSubjectTil' + api.id)));
+  } else if (endPoint === "/subject") {
+    await handleRequest(host, "/subject" + "/" + api.id, "PUT",
+    buildSubjectData("newSubjectName"));
   };
-
 }
 
-const deleteData = async (til) => {
-  if (document.getElementsByClassName("til")) {
-    await handleRequest(host, "/tils" + "/" + til.id, "DELETE")
-  } else if (document.getElementsByClassName("subject")) {
-    // todo 
+const deleteData = async (api, endPoint) => {
+  if (endPoint === "/til") {
+    await handleRequest(host, "/tils" + "/" + api.id, "DELETE")
+  } else if (endPoint === "/subject") {
+    await handleRequest(host, "/subject" + "/" + api.id, "DELETE") 
   };
 }
 
@@ -225,7 +232,7 @@ function openPopupModify() {
         </select>
       </label>
       <label for="addDesc" class="editTil">TIL: <input id="desc" type="text"></label>
-      <button class="til" @click="addData()">Add</button>
+      <button class="til" @click="addData('/til')">Add</button>
       <button class="til" @click="enableEditing()">Edit</button>
       <button @click="showPopup = false">Close</button>
       <div class="show" :id="til.id" :key="til.id" v-for="til in getTilsforDate()">
@@ -238,8 +245,8 @@ function openPopupModify() {
         </label>
         <label for="'editSueditDescbject' + til.id" class="editTil">TIL: <input :id="'editDesc' + til.id" type="text"
             class="edit" :value="til.desc" disabled></label>
-        <button class="til" @click="updateData(til)">Update</button>
-        <button class="til" @click="deleteData(til)">Delete</button>
+        <button class="til" @click="updateData(til, '/til')">Update</button>
+        <button class="til" @click="deleteData(til, '/til')">Delete</button>
       </div>
     </div>
   </div>
@@ -248,10 +255,10 @@ function openPopupModify() {
     <div class="popup">
       <h3>Modify Subject</h3>
       <label for="modifySubject" class="editSubject">Subject name to add: <input id="subjectName" type="text"></label>
-      <button class="subject" @click="addData()">Add</button>
+      <button class="subject" @click="addData('/subject')">Add</button>
       <label for="editSubject" class="editSubject">Subject:
-        <select id="subjectModify" v-model="selecteSubj">
-          <option v-for="subject in subjects" :value="subject.desc" :key="subject.id">
+        <select id="subjectModify" v-model="selectedSbj">
+          <option v-for="subject in subjects" :value="subject" :key="subject.id">
             {{ subject.desc }}
           </option>
         </select>
@@ -260,11 +267,11 @@ function openPopupModify() {
         <label for="newSubjectName">New Subject Name:
           <input id="newSubjectName" v-model="newSubjectName" type="text">
         </label>
-        <button class="subject" @click="updateData()">Save</button>
+        <button class="subject" @click="updateData(selectedSbj, '/subject')">Save</button>
         <button class="subject" @click="isEditing = false">Cancel</button>
       </div>
       <button class="subject" @click="isEditing = true">Update</button>
-      <button class="subject" @click="deleteData(selectedSubjects)">Delete</button>
+      <button class="subject" @click="deleteData(selectedSbj, '/subject')">Delete</button>
       <button @click="showPopupModify = false">Close</button>
     </div>
   </div>
