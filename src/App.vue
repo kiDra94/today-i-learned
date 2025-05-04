@@ -97,23 +97,34 @@ onMounted(async () => {
   await fetchData("/tils");
   await fetchData("/subject");
 });
-// TODO: fixe css, add select instande of input text in popup, fix updateing add the subject and next TODO
+
 const addData = async () => {
-  // TODO: implement if and mazbe a const tilBtnList to use the same
-  // function for /tils and /subject
-  tils._rawValue.push(buildTilData("desc", "subject"));
-  await handleRequest(host, path, "POST", buildTilData("desc", "subject"))
+  if(document.getElementsByClassName("til")){
+    tils._rawValue.push(buildTilData("desc", "subject"));
+  await handleRequest(host, "/tils", "POST", buildTilData("desc", "subject"))
   resetInputToEmpty("desc");
-  resetInputToEmpty("subject");
+  resetInputToEmpty("subject")
+  }else if(document.getElementsByClassName("subject")){
+    // todo 
+  };
 }
 
-const updateTil = async (til) => {
-  await handleRequest(host, "/tils" + "/" + til.id, "PUT",
+const updateData = async (til) => {
+  if(document.getElementsByClassName("til")){
+    await handleRequest(host, "/tils" + "/" + til.id, "PUT",
     buildTilData(('editDesc' + til.id), ('editSubject' + til.id)));
+  }else if(document.getElementsByClassName("subject")){
+    // todo 
+  };
+  
 }
 
-const deleteTil = async (til) => {
-  await handleRequest(host, "/tils" + "/" + til.id, "DELETE")
+const deleteData = async (til) => {
+  if(document.getElementsByClassName("til")){
+    await handleRequest(host, "/tils" + "/" + til.id, "DELETE")
+  }else if(document.getElementsByClassName("subject")){
+    // todo 
+  };
 }
 
 const popupTitle = ref("");
@@ -164,8 +175,8 @@ function enableEditing() {
       <h3>{{ popupTitle }}</h3>
       <label for="addSubject" class="editSubject">Subject: <input id="subject" type="text"></label>
       <label for="addDesc" class="editTil">TIL: <input id="desc" type="text"></label>
-      <button @click="addData()">Add</button>
-      <button @click="enableEditing()">Edit</button>
+      <button class="til" @click="addData()">Add</button>
+      <button class="til" @click="enableEditing()">Edit</button>
       <button @click="showPopup = false">Close</button>
       <div class="show" :id="til.id" :key="til.id" v-for="til in getTilsforDate()">
         <label :for="'editSubject' + til.id" class="editSubject">Subject:
@@ -177,8 +188,8 @@ function enableEditing() {
         </label>
         <label for="'editSueditDescbject' + til.id" class="editTil">TIL: <input :id="'editDesc' + til.id" type="text"
             class="edit" :value="til.desc" disabled></label>
-        <button @click="updateTil(til)">Update</button>
-        <button @click="deleteTil(til)">Delete</button>
+        <button class="til" @click="updateData(til)">Update</button>
+        <button class="til" @click="deleteData(til)">Delete</button>
       </div>
     </div>
   </div>
@@ -337,7 +348,7 @@ h3 {
   /* White background for popup */
   width: 90%;
   /* Make popup responsive */
-  max-width: 700px;
+  max-width: 800px;
   /* Max width for larger screens */
   padding: 30px;
   /* More padding */
