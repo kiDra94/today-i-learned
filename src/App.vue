@@ -154,6 +154,16 @@ function enableEditing() {
   })
 }
 
+const selectedSubjects = ref([]);
+
+const showSubjectTil = (subject) => {
+  if (selectedSubjects.value.includes(subject.desc)) {
+    selectedSubjects.value = selectedSubjects.value.filter((word) => word !== subject.desc)
+  } else {
+    selectedSubjects.value.push(subject.desc)
+  };
+}
+
 </script>
 
 <template>
@@ -226,29 +236,29 @@ function enableEditing() {
 }
 
 .subjectsDiv h3 {
-    margin-top: 0;
-    margin-bottom: 1rem;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 0.5rem;
+  margin-top: 0;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 0.5rem;
 }
 
 .subjectDiv {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    background-color: #f9f9f9;
-    cursor: pointer;
-    margin-bottom: 8px;
-    width: 130px;
-    transition: background 0.2s;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #f9f9f9;
+  cursor: pointer;
+  margin-bottom: 8px;
+  width: 130px;
+  transition: background 0.2s;
 }
 
 .subjectDiv:last-child {
-    margin-bottom: 0;
+  margin-bottom: 0;
 }
 
 .subjectDiv:hover {
-    background-color: #eaeaea;
+  background-color: #eaeaea;
 }
 
 .months-container {
@@ -285,17 +295,17 @@ function enableEditing() {
 }
 
 .weekend_css {
-    background-color: #ffeeba;
+  background-color: #ffeeba;
 }
 
 .event_css {
-    font-style: italic;
-    font-weight: bold;
+  font-style: italic;
+  font-weight: bold;
 }
 
 .past_css {
-    color: #999;
-    background-color: #eee;
+  color: #999;
+  background-color: #eee;
 }
 
 .overlay {
@@ -378,43 +388,43 @@ function enableEditing() {
 }
 
 .show label {
-    display: flex;
-    align-items: center;
-    margin-bottom: 0;
-    gap: 5px;
-    flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  margin-bottom: 0;
+  gap: 5px;
+  flex-shrink: 0;
 }
 
 .show .editSubject {
-    flex-grow: 0;
+  flex-grow: 0;
 }
 
 .show .editTil {
-    flex-grow: 1;
-    flex-basis: 0;
+  flex-grow: 1;
+  flex-basis: 0;
 }
 
 
 .show select {
-    width: auto;
-    flex-grow: 0;
-    margin-top: 0;
-    min-width: 150px;
+  width: auto;
+  flex-grow: 0;
+  margin-top: 0;
+  min-width: 150px;
 }
 
 .show input[type="text"] {
-    width: 100%;
-    flex-grow: 0;
-    margin-top: 0;
+  width: 100%;
+  flex-grow: 0;
+  margin-top: 0;
 }
 
 .show button {
-    flex-shrink: 0;
-    margin-right: 0;
-    margin-left: auto;
+  flex-shrink: 0;
+  margin-right: 0;
+  margin-left: auto;
 }
 
-.show button + button {
-    margin-left: 10px;
+.show button+button {
+  margin-left: 10px;
 }
 </style>
