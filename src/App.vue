@@ -84,9 +84,13 @@ const subjects = ref([]);
 
 const fetchData = async (path) => {
   const data = await handleRequest(host, path, "GET");
-  if (data) {
+  if(path === "/tils" && data) {
     tils.value = data;
-  };
+  }else if (path === "/subject" && data) {
+    subjects.value = data;
+  }else{
+    console.log("Unknown path");
+  }
 }
 
 onMounted(async () => {
