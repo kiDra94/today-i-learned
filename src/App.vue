@@ -30,7 +30,7 @@ const days = (month, data) => {
   while (current_day.isBefore(to, "day") || current_day.isSame(to, "day")) {
     const isEvent = data.some(event => is_event(current_day, event.date));
     const dateKey = current_day.format("YYYY-MM-DD");
-    const subjectsForThisDay = tilsByDay.value[dateKey];
+    const subjectsForThisDay = tilsByDay.value[dateKey] || []; // leeres [] fuer tage ohne eintrag
     const hasSelectedSubject = containsAnySubject(selectedSubjects.value, subjectsForThisDay);
     const special_class = [
       is_today(current_day) ? "today_css" : "",
@@ -99,8 +99,8 @@ const fetchData = async (path) => {
 
 onMounted(async () => {
   await fetchData("/tils");
-  console.log("tilsByDay nach erfolgreichem Laden der Daten:", tilsByDay.value); // gemini gefragt, da ich nicht gewusst habe wie es lösen soll
-  // problem war, das ich die tils ja erst später kriege und dadurch meine tilsByValue leer war
+  // console.log("tilsByDay nach erfolgreichem Laden der Daten:", tilsByDay.value); // gemini gefragt, da ich nicht gewusst habe wie es lösen soll
+  // // problem war, das ich die tils ja erst später kriege und dadurch meine tilsByValue leer war
   await fetchData("/subject");
 });
 
@@ -329,6 +329,34 @@ const containsAnySubject = (subjects, subjectsOnDay) => {
 .past_css {
   color: #999;
   background-color: #eee;
+}
+
+.months-container.filter-active .day:not(.selecetedSubject_css) {
+    opacity: 0.5; /* Reduziere die Deckkraft, um es auszugrauen */
+    filter: grayscale(80%); /* Mache es gräulicher */
+    color: #999; /* Ändere die Textfarbe zu grau */
+    /* Optional: Entferne den Cursor, da es nicht mehr das "Hauptziel" ist */
+    cursor: default;
+    /* Optional: Stelle sicher, dass Hover-Effekte auf ausgegrauten Elementen reduziert sind */
+    pointer-events: none; /* Kann Klicks auf diese Elemente verhindern, falls gewünscht */
+}
+
+/* Stil für die Tage, die das ausgewählte Subject haben */
+/* Diese Klasse definiert die Hervorhebung selbst */
+/* Stelle sicher, dass diese Stile nicht vom Ausgrau-Stil überschrieben werden (z.B. durch spezifischere Selektoren oder die Reihenfolge) */
+.selecetedSubject_css {
+    /* Deine gewünschten Hervorhebungs-Stile (z.B. Hintergrund, Rahmen, Schrift) */
+    background-color: #ccccff; /* Beispiel: Heller Blauton */
+    border-color: #0000cc;     /* Beispiel: Dunklerer Rahmen */
+    font-weight: bold;         /* Beispiel: Schrift fett machen */
+    /* Stelle sicher, dass sie sichtbar bleiben */
+    opacity: 1 !important;     /* Setze die Deckkraft explizit auf voll, um den obigen Stil zu überschreiben */
+    filter: none !important;   /* Entferne den Graustufen-Filter */
+    color: inherit;          /* Setze die Textfarbe zurück, falls oben geändert */
+    cursor: pointer;         /* Behalte den Cursor bei */
+    pointer-events: auto;    /* Erlaube Klicks */
+    position: relative;      /* Kann nützlich sein, um es über ausgegrauten Elementen zu positionieren */
+    z-index: 1;              /* Stelle sicher, dass es vorne liegt */
 }
 
 .overlay {
