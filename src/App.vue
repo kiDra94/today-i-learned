@@ -9,6 +9,7 @@ const today = dayjs();
 const showPopup = ref(false);
 const showPopupModify = ref(false);
 const isEditing = ref(false);
+const showPopupTil = ref(false);
 
 const is_today = (day) => day.isSame(today, "day");
 const weekend = (day) => day.day() == 0 || day.day() == 6; // 0 SO, 6 SA
@@ -131,7 +132,7 @@ const updateData = async (api, endPoint) => {
       buildTilData(('editDesc' + api.id), ('editSubjectTil' + api.id)));
   } else if (endPoint === "/subject") {
     await handleRequest(host, "/subject" + "/" + api.id, "PUT",
-    buildSubjectData("newSubjectName"));
+      buildSubjectData("newSubjectName"));
   };
 }
 
@@ -139,7 +140,7 @@ const deleteData = async (api, endPoint) => {
   if (endPoint === "/til") {
     await handleRequest(host, "/tils" + "/" + api.id, "DELETE")
   } else if (endPoint === "/subject") {
-    await handleRequest(host, "/subject" + "/" + api.id, "DELETE") 
+    await handleRequest(host, "/subject" + "/" + api.id, "DELETE")
   };
 }
 
@@ -196,6 +197,10 @@ function openPopupModify() {
   showPopupModify.value = true;
 }
 
+function openPopupTil() {
+  showPopupTil.value = true;
+}
+
 </script>
 
 <template>
@@ -208,6 +213,7 @@ function openPopupModify() {
         {{ subject.desc }}
       </div>
       <button id="modifySbjData" class="subject" @click="openPopupModify()">Modify Data</button>
+      <button id="modifySbjData" class="subject" @click="openPopupTil()">Show all Til</button>
     </div>
 
     <div class="month" v-for="month in months(from, to)" :key="month.format('YYYY-MM')">
@@ -273,6 +279,20 @@ function openPopupModify() {
       <button class="subject" @click="isEditing = true">Update</button>
       <button class="subject" @click="deleteData(selectedSbj, '/subject')">Delete</button>
       <button @click="showPopupModify = false">Close</button>
+    </div>
+  </div>
+
+  <div class="overlay" v-show="showPopupTil">
+    <div class="popup">
+      <h3>Modify Subject</h3>
+      <button class="close-btn" @click="showPopupTil = false">Close</button>
+      <div v-for="til in tils" :key="til.id" class="til-item">
+        <p><strong>Date:</strong> {{ dayjs(til.date).format('ddd, DD MMM YYYY') }}</p>
+        <p><strong>Subject:</strong> {{ til.subject }}</p>
+        <p><strong>Description:</strong> {{ til.desc }}</p>
+        <hr />
+      </div>
+      <button @click="showPopupTil = false">Close</button>
     </div>
   </div>
 </template>
@@ -415,13 +435,15 @@ function openPopupModify() {
 
 #modifySbjData {
   padding: 8px 14px;
+  margin-bottom: 10px;
   border: none;
   border-radius: 6px;
   cursor: pointer;
   background-color: #0066cc;
   color: #fff;
   transition: background 0.3s;
-  width: 100%; /* Optional, je nach Bedarf */
+  width: 100%;
+  /* Optional, je nach Bedarf */
 }
 
 #modifySbjData:hover {
@@ -449,6 +471,7 @@ function openPopupModify() {
   width: 80%;
   overflow-y: auto;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  position: relative;
 }
 
 .popup h3 {
@@ -472,6 +495,18 @@ function openPopupModify() {
   margin-top: 0.25rem;
   border: 1px solid #ccc;
   border-radius: 6px;
+}
+
+.popup .close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 6px 12px;
+  background-color: #aaa;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
 .popup button {
