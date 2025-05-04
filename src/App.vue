@@ -169,14 +169,12 @@ function enableEditing() {
       <button @click="showPopup = false">Close</button>
       <div class="show" :id="til.id" :key="til.id" v-for="til in getTilsforDate()">
         <label :for="'editSubject' + til.id" class="editSubject">Subject:
-          <select v-model="til.subject" disabled="true">
+          <select v-model="til.subject" :id="'editSubject' + til.id" class="edit" disabled>
             <option v-for="subject in subjects" :value="subject.desc" :key="subject.id">
               {{ subject.desc }}
             </option>
           </select>
         </label>
-        <!-- <label :for="'editSubject' + til.id" class="editSubject">Subject: <input :id="'editSubject' + til.id"
-            type="text" class="edit" :value="til.subject" disabled></label> -->
         <label for="'editSueditDescbject' + til.id" class="editTil">TIL: <input :id="'editDesc' + til.id" type="text"
             class="edit" :value="til.desc" disabled></label>
         <button @click="updateTil(til)">Update</button>
