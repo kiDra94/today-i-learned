@@ -84,11 +84,11 @@ const subjects = ref([]);
 
 const fetchData = async (path) => {
   const data = await handleRequest(host, path, "GET");
-  if(path === "/tils" && data) {
+  if (path === "/tils" && data) {
     tils.value = data;
-  }else if (path === "/subject" && data) {
+  } else if (path === "/subject" && data) {
     subjects.value = data;
-  }else{
+  } else {
     console.log("Unknown path");
   }
 }
@@ -97,7 +97,7 @@ onMounted(async () => {
   await fetchData("/tils");
   await fetchData("/subject");
 });
-
+// TODO: fixe css, add select instande of input text in popup, fix updateing add the subject and next TODO
 const addData = async () => {
   // TODO: implement if and mazbe a const tilBtnList to use the same
   // function for /tils and /subject
@@ -167,9 +167,16 @@ function enableEditing() {
       <button @click="addData()">Add</button>
       <button @click="enableEditing()">Edit</button>
       <button @click="showPopup = false">Close</button>
-      <div class="show" :id="til.id" :key="til" v-for="til in getTilsforDate()">
-        <label :for="'editSubject' + til.id" class="editSubject">Subject: <input :id="'editSubject' + til.id"
-            type="text" class="edit" :value="til.subject" disabled></label>
+      <div class="show" :id="til.id" :key="til.id" v-for="til in getTilsforDate()">
+        <label :for="'editSubject' + til.id" class="editSubject">Subject:
+          <select v-model="til.subject" disabled="true">
+            <option v-for="subject in subjects" :value="subject.desc" :key="subject.id">
+              {{ subject.desc }}
+            </option>
+          </select>
+        </label>
+        <!-- <label :for="'editSubject' + til.id" class="editSubject">Subject: <input :id="'editSubject' + til.id"
+            type="text" class="edit" :value="til.subject" disabled></label> -->
         <label for="'editSueditDescbject' + til.id" class="editTil">TIL: <input :id="'editDesc' + til.id" type="text"
             class="edit" :value="til.desc" disabled></label>
         <button @click="updateTil(til)">Update</button>

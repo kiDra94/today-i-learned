@@ -4,25 +4,25 @@
       "date": "2025-04-10",
       "desc": "json-server verwenden",
       "id": "81b3",
-      "subject": "pos"
+      "subject": "POS"
     },
     {
       "date": "2025-05-10",
       "desc": "v-for wiederhikt",
       "id": "cd47",
-      "subject": "pos"
+      "subject": "POS"
     },
     {
       "date": "2025-06-10",
       "desc": "pointer",
       "id": "1e0a",
-      "subject": "pos"
+      "subject": "POS"
     },
     {
       "date": "2025-06-18",
       "desc": "Notenschluss",
       "id": "c5ee",
-      "subject": "pos"
+      "subject": "POS"
     },
     {
       "id": "fc93",
@@ -33,14 +33,8 @@
     {
       "id": "63a5",
       "date": "2025-05-04",
-      "subject": "medt",
+      "subject": "MEDT",
       "desc": "testing clearing input after add"
-    },
-    {
-      "id": "70f2",
-      "desc": "testing123",
-      "subject": "testing123",
-      "date": "2025-04-09"
     }
   ],
   "subject": [
@@ -52,7 +46,8 @@
       "id": "72f2",
       "desc": "POS"
     },
-    {"id": "73f2",
+    {
+      "id": "73f2",
       "desc": "DB"
     },
     {
