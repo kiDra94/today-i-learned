@@ -1,29 +1,89 @@
-# til
+# 📘 Today I Learned (TIL)
 
-This template should help get you started developing with Vue 3 in Vite.
+A Vue 3 + Vite application that helps you **track what you learned on specific days**.  
+Add **subjects**, and log daily learnings on a **calendar view**.  
+A lightweight and simple tool to build your own digital learning diary. 🧠📅
 
-## Recommended IDE Setup
+---
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+## 🚀 Features
 
-## Customize configuration
+- ✅ Add and manage learning subjects
+- 📅 View what you learned each day
+- 🖥️ Built with Vue 3 + Vite
+- 🔧 Mock backend with `json-server`
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+---
 
-## Project Setup
+## 🛠️ Tech Stack
 
-```sh
+- [Vue 3](https://vuejs.org/)
+- [Vite](https://vitejs.dev/)
+- [Vue Router](https://router.vuejs.org/)
+- [Day.js](https://day.js.org/) for date handling
+- [json-server](https://github.com/typicode/json-server) for mock API
+
+---
+
+## 📦 Project Setup
+
+### 🔧 Install Dependencies
+
+```bash
 npm install
-```
 
-### Compile and Hot-Reload for Development
+💻 Start in Development Mode (with hot reload + mock backend)
 
-```sh
 npm run dev
-```
 
-### Compile and Minify for Production
+    Frontend: http://localhost:5173
 
-```sh
+    API Server: http://localhost:3000
+
+    Make sure ports 5173 and 3000 are free.
+
+🏗️ Build for Production
+
 npm run build
-```
+
+Then preview the built app locally with:
+
+npm run preview
+
+🐳 Run with Docker
+Build the Docker image:
+
+docker build -t til-app .
+
+Run the container:
+
+docker run -p 5173:5173 -p 3000:3000 til-app
+
+    Visit the app: http://localhost:5173
+
+    Visit the API: http://localhost:3000
+
+    Vite is configured to run on 0.0.0.0 so it's accessible outside the container.
+
+💡 Recommended IDE Setup
+
+    Visual Studio Code
+
+    Volar (disable Vetur)
+
+🔗 Vite Configuration Reference
+
+See the full config docs here: vitejs.dev/config
+✍️ License
+
+MIT – feel free to use, modify, and build upon this project.
+
+Made with ❤️ by [You]
+
+
+---
+
+Would you like me to:
+
+- Turn this into a `README.md` file and attach it?
+- Add screenshots or usage examples (like subject creation or calendar view)
