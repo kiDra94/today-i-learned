@@ -27,63 +27,55 @@ A lightweight and simple tool to build your own digital learning diary. 🧠📅
 
 ## 📦 Project Setup
 
-### 🔧 Install Dependencies
+## Run without docker
 
-```bash
-npm install
+### 1. 🔧 Install Dependencies
 
-💻 Start in Development Mode (with hot reload + mock backend)
+    npm install
 
-npm run dev
+### 2. 💻 Start in Development Mode (with hot reload + mock backend)
 
-    Frontend: http://localhost:5173
+    npm run dev
 
-    API Server: http://localhost:3000
+        Frontend: http://localhost:5173
 
-    Make sure ports 5173 and 3000 are free.
+        API Server: http://localhost:3000
 
-🏗️ Build for Production
+        Make sure ports 5173 and 3000 are free.
 
-npm run build
+### 3. 🏗️ Build for Production
+
+    npm run build
 
 Then preview the built app locally with:
 
-npm run preview
+    npm run preview
 
-🐳 Run with Docker
+## 🐳 Run with Docker
+
 Build the Docker image:
 
-docker build -t til-app .
+    docker build -t til-app .
 
 Run the container:
 
-docker run -p 5173:5173 -p 3000:3000 til-app
+    docker run -p 5173:5173 -p 3000:3000 til-app
 
-    Visit the app: http://localhost:5173
+        Visit the app: http://localhost:5173
 
-    Visit the API: http://localhost:3000
+        Visit the API: http://localhost:3000
 
     Vite is configured to run on 0.0.0.0 so it's accessible outside the container.
 
-💡 Recommended IDE Setup
+### 💡 Recommended IDE Setup
 
     Visual Studio Code
 
     Volar (disable Vetur)
 
-🔗 Vite Configuration Reference
+### 🔗 Vite Configuration Reference
 
 See the full config docs here: vitejs.dev/config
 ✍️ License
 
 MIT – feel free to use, modify, and build upon this project.
-
-Made with ❤️ by [You]
-
-
----
-
-Would you like me to:
-
-- Turn this into a `README.md` file and attach it?
-- Add screenshots or usage examples (like subject creation or calendar view)
