@@ -40,6 +40,11 @@ const emit = defineEmits([
   background-color: #fdfdfd;
   flex-shrink: 0;
   width: 150px;
+  position: sticky;         
+  top: 2rem;                  
+  align-self: flex-start;     
+  max-height: calc(100vh - 4rem);  
+  overflow-y: auto;           
 }
 
 .subjectsDiv h3 {
